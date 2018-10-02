@@ -1,0 +1,38 @@
+const request = require('request');
+
+exports.pushNewAd = async function(ad) {
+    const reqOptions = {
+        uri: 'https://flatbot.glitch.me/r/pushNewAd',
+        method: 'POST',
+        json: true,
+        body: ad
+    };
+    request(reqOptions);
+}
+
+exports.pushAdUpdate = async function(ad) {
+    const reqOptions = {
+        uri: 'https://flatbot.glitch.me/r/pushAdUpdate',
+        method: 'POST',
+        json: true,
+        body: ad
+    };
+    request(reqOptions);
+}
+exports.clearDB = async function(){
+    const reqOptions = {
+        uri: 'https://flatbot.glitch.me/r/clearDB',
+        method: 'GET'
+    };
+    request(reqOptions);
+}
+
+exports.customMessage = async function(msg) {
+    const reqOptions = {
+        uri: 'https://flatbot.glitch.me/r/errorMessage',
+        method: 'POST',
+        json: true,
+        body: msg
+    };
+    request(reqOptions);
+}
