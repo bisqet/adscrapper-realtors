@@ -862,6 +862,25 @@
     "Thu Oct 04 2018 01:25:53 GMT+0300 (Israel Daylight Time) - URL №2",
     "Thu Oct 04 2018 01:26:02 GMT+0300 (Israel Daylight Time) - Total ads on page: 12",
     "Thu Oct 04 2018 01:28:29 GMT+0300 (Israel Daylight Time) - Error HAPPENED:http://www.yad2.co.il/Nadlan/tivrent_info.php?NadlanID=1042360",
-    "Thu Oct 04 2018 01:30:30 GMT+0300 (Israel Daylight Time) - Error HAPPENED:http://www.yad2.co.il/Nadlan/tivrent_info.php?NadlanID=1004291"
+    "Thu Oct 04 2018 01:30:30 GMT+0300 (Israel Daylight Time) - Error HAPPENED:http://www.yad2.co.il/Nadlan/tivrent_info.php?NadlanID=1004291",
+    "Thu Oct 04 2018 01:42:14 GMT+0300 (Israel Daylight Time) - URL №1",
+    "Thu Oct 04 2018 01:43:15 GMT+0300 (Israel Daylight Time) - ERROR HAPPENED TimeoutError: waiting for selector \"#tiv_main_table\" failed: timeout 60000ms exceeded",
+    "Thu Oct 04 2018 01:44:12 GMT+0300 (Israel Daylight Time) - URL №1",
+    "Thu Oct 04 2018 01:44:21 GMT+0300 (Israel Daylight Time) - Total ads on page: 4",
+    "Thu Oct 04 2018 01:45:35 GMT+0300 (Israel Daylight Time) - Total skipped-duplicate - due to DB: 2",
+    "Thu Oct 04 2018 01:45:35 GMT+0300 (Israel Daylight Time) - Total skipped due to city filter:  0",
+    "Thu Oct 04 2018 01:45:35 GMT+0300 (Israel Daylight Time) - Total skipped due to SQR filter:  2",
+    "Thu Oct 04 2018 01:45:35 GMT+0300 (Israel Daylight Time) - Total msgs:  0",
+    "Thu Oct 04 2018 01:45:35 GMT+0300 (Israel Daylight Time) - Successful.",
+    "Thu Oct 04 2018 01:46:35 GMT+0300 (Israel Daylight Time) - URL №2",
+    "Thu Oct 04 2018 01:47:36 GMT+0300 (Israel Daylight Time) - ERROR HAPPENED TimeoutError: waiting for selector \"#tiv_main_table\" failed: timeout 60000ms exceeded",
+    "Thu Oct 04 2018 01:48:36 GMT+0300 (Israel Daylight Time) - URL №2",
+    "Thu Oct 04 2018 01:48:48 GMT+0300 (Israel Daylight Time) - Total ads on page: 12",
+    "Thu Oct 04 2018 01:51:49 GMT+0300 (Israel Daylight Time) - Error HAPPENED:http://www.yad2.co.il/Nadlan/tivrent_info.php?NadlanID=1042360",
+    "Thu Oct 04 2018 01:52:25 GMT+0300 (Israel Daylight Time) - Error HAPPENED:http://www.yad2.co.il/Nadlan/tivrent_info.php?NadlanID=1004291",
+    "Thu Oct 04 2018 01:53:01 GMT+0300 (Israel Daylight Time) - Error HAPPENED:http://www.yad2.co.il/Nadlan/tivrent_info.php?NadlanID=954991",
+    "Thu Oct 04 2018 01:53:36 GMT+0300 (Israel Daylight Time) - Error HAPPENED:http://www.yad2.co.il/Nadlan/tivrent_info.php?NadlanID=1042563",
+    "Thu Oct 04 2018 01:54:12 GMT+0300 (Israel Daylight Time) - Error HAPPENED:http://www.yad2.co.il/Nadlan/tivrent_info.php?NadlanID=1037147",
+    "Thu Oct 04 2018 01:54:47 GMT+0300 (Israel Daylight Time) - Error HAPPENED:http://www.yad2.co.il/Nadlan/tivrent_info.php?NadlanID=1044090"
   ]
 }
