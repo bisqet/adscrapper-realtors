@@ -210,7 +210,6 @@ function indexApp() {
                     $('.details_block_296 .details_block_body div:nth-child(2)').css({ height: 'inherit' });
                     return data;
                 });
-                log(adDetails);
 
                 if (!(await sqrFilter(adDetails.sqrmeter))) {
                     filteredBySqr++;
@@ -250,7 +249,7 @@ function indexApp() {
                     log("MAP OPTIONS IS NOT DEFINED ERROR")
                 }
 
-                adMetaData.images.unshift(`http://172.104.211.48:3001/${ad.id}-info.png`);
+                adMetaData.images.unshift(`http://172.104.211.48:3002/${ad.id}-info.png`);
                 ad.meta = adMetaData;
 
                 // write to DB
