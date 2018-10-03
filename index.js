@@ -187,7 +187,12 @@ function indexApp() {
                                 //
                             });
                             let container = dataBlock.nextElementSibling;
-                            data.more = container.lastElementChild.innerText;
+                            if(container.lastElementChild){
+                                data.more = container.lastElementChild.innerText;
+                            }else{
+                                data.more = "*"
+                            }
+                            
                             data["tax/m"] = "*";
                             data.vaad = "*";
                             for (let i = 0; i < container.children[2].childNodes.length; i++) {
@@ -210,7 +215,6 @@ function indexApp() {
                 }
                 });
                 log(adDetails);
-                continue;
 
                 if (!(await sqrFilter(adDetails.sqrmeter))) {
                     filteredBySqr++;
