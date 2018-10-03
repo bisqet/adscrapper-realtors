@@ -77,11 +77,9 @@ function indexApp() {
         page.setDefaultNavigationTimeout(120000 * 2);
 
         await page.goto(yad2ResultsURL);
-        await page.waitFor(30000);
 
-        await page.screenshot({ path: publicFolder + `CHECK FOR LOADING${Math.random()}.png` });
         // check for captcha
-        await page.waitFor("#tiv_main_table", { timeout: 180000 })
+        await page.waitFor("#tiv_main_table", { timeout: 60000 })
         //log("main table found")
 
         const searchSource = await page.content();
@@ -115,8 +113,9 @@ function indexApp() {
         }
 
         // start scraping
-
+        log('page.screenshot before')
         await page.screenshot({ path: publicFolder + 'homepage.png' });
+        log('page.screenshot after')
         const parsedAds = await page.evaluate(() => {
             const adsResults = [];
             const ads = $("#tiv_main_table .main_table tr.showPopupUnder");
@@ -214,12 +213,12 @@ function indexApp() {
                     continue;
                 }
                 ad.data = adDetails;
-
+                log('infoElement.screenshot before')
                 // screenshot the data
                 const infoElement = await page.$('#mainFrame > div.right_column > div > div > table > tbody > tr:nth-child(1) > td:nth-child(1)');
                 await infoElement.screenshot({ path: `${publicFolder}${ad.id}-info.png` });
                 //log('ad info screenshot created ' + `${publicFolder}${ad.id}-info.png`);
-
+                log('infoElement.screenshot before')
                 // get the images and the map location
                 //log('Fetching images and map data');
                 await page.goto(`http://www.yad2.co.il/Nadlan/ViewImage.php?CatID=2&SubCatID=2&RecordID=${ad.id}`, { waitUntil: ['load', 'domcontentloaded', 'networkidle0'] });

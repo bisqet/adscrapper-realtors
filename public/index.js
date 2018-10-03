@@ -260,6 +260,7 @@ input:focus~.bar:after {
 
 <body>
     <main>
+        <h1 style="text-align:center">YAD2 Scraper Bot Realtor Ads</h1>
         <section id='settingsBar'>
             <div class='section'>
                 <textarea id='scrapeLinks's class='textarea' value='' style='font-size:80%'></textarea>
