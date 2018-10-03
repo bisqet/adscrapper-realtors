@@ -23,8 +23,8 @@ app.use(bodyParser())
 
 
 app.get('/', (req, res) => {
-        //ctx.res.end('GG!');
-    res.send(`<!DOCTYPE html>
+   console.info('asdaadsdasdasdasdasd')
+res.send(`<!DOCTYPE html>
 <html>
 
 <head>
