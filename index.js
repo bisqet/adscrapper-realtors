@@ -163,7 +163,6 @@ function indexApp() {
                 }); // max 2 minutes
                 if(error!==0){
                     error=0;
-                    continue;
                 }
                 //log('Waited');
                 const adDetails = await page.evaluate(() => {
