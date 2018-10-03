@@ -210,7 +210,7 @@ function indexApp() {
                 }
                 });
                 log(adDetails);
-                return;
+                continue;
 
                 if (!(await sqrFilter(adDetails.sqrmeter))) {
                     filteredBySqr++;
