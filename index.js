@@ -72,6 +72,8 @@ function indexApp() {
 
         const page = await browser.newPage();
 
+        page.setViewport({width: 1400, height:800})
+
         page.setDefaultNavigationTimeout(120000 * 2);
 
         await page.goto(yad2ResultsURL);
