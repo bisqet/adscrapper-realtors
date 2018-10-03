@@ -469,11 +469,11 @@ app.post('/changeSettings', (req, res) => {
 });
 
 app.get('/startServer', (req, res) => {
-    const isWakeUpable = syncFs.readFileSync('./.isServerWakeUpable', "utf8")
+    const isWakeUpable = syncFs.readFileSync('./.isServerWakeUpable', "utf8");
     if (isWakeUpable == "true"){
           res.send("SCRAPPER STARTED");
             cmd.get(
-            `cd /root/adscrapper/
+            `cd /root/adscrapper-realtors/
             npm run scrapper`,
             function(err, data, stderr){
                 if(err){
