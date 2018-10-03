@@ -206,10 +206,11 @@ function indexApp() {
                     $('.details_block_296 .details_block_body div:nth-child(2)').css({ height: 'inherit' });
                     return data;
                 }catch(err){
-                    log(err);
-                    throw new Error(err);
+                    return err;
                 }
                 });
+                log(adDetails);
+                return;
 
                 if (!(await sqrFilter(adDetails.sqrmeter))) {
                     filteredBySqr++;
