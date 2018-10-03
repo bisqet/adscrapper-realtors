@@ -165,6 +165,7 @@ function indexApp() {
                 }
                 //log('Waited');
                 const adDetails = await page.evaluate(() => {
+                    try{
                     const data = {};
                     $('.innerDetailsDataGrid').each((index, dataBlock) => {
                         if (index === 0) {
@@ -204,6 +205,10 @@ function indexApp() {
                     // remove info divs scrollbars for screenshots
                     $('.details_block_296 .details_block_body div:nth-child(2)').css({ height: 'inherit' });
                     return data;
+                }catch(err){
+                    log(err);
+                    throw new Error(err);
+                }
                 });
 
                 if (!(await sqrFilter(adDetails.sqrmeter))) {
