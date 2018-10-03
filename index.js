@@ -155,10 +155,11 @@ function indexApp() {
                 await page.goto(ad.link);
 
                 let error = 0;
-                await page.waitFor("#mainFrame", { timeout: 60000 * 2}).catch(err=>{
+                await page.waitFor("#mainFrame", { timeout: 60000}).catch(err=>{
+                    await page.screenshot({ path: publicFolder + `error!${error}!.png` });
                     error+=1;
                     log("Error HAPPENED:"+ad.link)
-                }); // max 5 minutes
+                }); // max 2 minutes
                 if(error!==0){
                     error=0;
                     continue;
