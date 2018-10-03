@@ -77,7 +77,7 @@ function indexApp() {
         await page.goto(yad2ResultsURL);
         await page.waitFor(30000);
 
-        await page.screenshot({ path: publicFolder + 'CHECK FOR LOADING.png' });
+        await page.screenshot({ path: publicFolder + `CHECK FOR LOADING${Math.random()}.png` });
         // check for captcha
         await page.waitFor("#tiv_main_table", { timeout: 180000 })
         //log("main table found")
