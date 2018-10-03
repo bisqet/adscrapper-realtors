@@ -75,7 +75,9 @@ function indexApp() {
         page.setDefaultNavigationTimeout(120000 * 2);
 
         await page.goto(yad2ResultsURL);
+        await page.waitFor(30000);
 
+        await page.screenshot({ path: publicFolder + 'CHECK FOR LOADING.png' });
         // check for captcha
         await page.waitFor("#tiv_main_table", { timeout: 180000 })
         //log("main table found")
@@ -239,7 +241,7 @@ function indexApp() {
                     log("MAP OPTIONS IS NOT DEFINED ERROR")
                 }
 
-                adMetaData.images.unshift(`http://172.104.211.48:3000/${ad.id}-info.png`);
+                adMetaData.images.unshift(`http://172.104.211.48:3001/${ad.id}-info.png`);
                 ad.meta = adMetaData;
 
                 // write to DB
