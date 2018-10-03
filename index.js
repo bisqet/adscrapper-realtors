@@ -169,7 +169,7 @@ function indexApp() {
                     $('.innerDetailsDataGrid').each((index, dataBlock) => {
                         if (index === 0) {
                             $(dataBlock).find('td').each(function(idx, td) {
-                                if (td.textContent.match('ישוב') !== null) { data.city = td.nextElementSibling.innerText; }
+                                if (td.textContent.match('ישוב:') !== null) { data.city = td.nextElementSibling.innerText; }
                                 if (td.textContent.match("שכונה:") !== null && td.textContent.match("על השכונה:") === null) { data.hood = td.nextElementSibling.innerText }
                                 if (td.textContent.match("כתובת:") !== null) { data.fullAddress = td.nextElementSibling.innerText }
                                 if (td.textContent.match('גודל במ"ר:') !== null) { data.sqrmeter = parseInt(td.nextElementSibling.innerText) }
@@ -288,9 +288,9 @@ function indexApp() {
         const filter = config.sqrFilter;
         if (filter.match("all") !== null || filter === "") return true
         try {
-            log(`SQRfilter IS: ${filter}`);
-            log(`SQR IS: ${sqr}`);
-            log(`SQR RESULT IS: ${!!(eval(filter))}`);
+            //log(`SQRfilter IS: ${filter}`);
+            //log(`SQR IS: ${sqr}`);
+            //log(`SQR RESULT IS: ${!!(eval(filter))}`);
             return !!(eval(filter));
         } catch (err) {
             await sendErrorMessage({ err: "ERROR WITH PARSING SQRFILTER!!!" })
