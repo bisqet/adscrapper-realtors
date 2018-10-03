@@ -153,16 +153,15 @@ function indexApp() {
                 ad.link = "http://www.yad2.co.il/Nadlan/tivrent_info.php?NadlanID=" + ad.id;
                 //log('Fetching', ad.link);
                 await page.goto(ad.link);
-                await page.waitFor(30000)
-                await page.screenshot({ path: publicFolder + `error!${Math.random()}!.png` });
 
                 let error = 0;
-                await page.waitFor("#mainFrame", { timeout: 5000}).catch(err=>{
+                await page.waitFor("#mainFrame", { timeout: 60000*2}).catch(err=>{
                     error+=1;
                     log("Error HAPPENED:"+ad.link)
                 }); // max 2 minutes
                 if(error!==0){
                     error=0;
+                    continue;
                 }
                 //log('Waited');
                 const adDetails = await page.evaluate(() => {
