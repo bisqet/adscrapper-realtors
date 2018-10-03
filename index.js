@@ -77,7 +77,7 @@ function indexApp() {
         await page.goto(yad2ResultsURL);
 
         // check for captcha
-        await page.waitFor("#main_table", { timeout: 180000 })
+        await page.waitFor("#tiv_main_table", { timeout: 180000 })
         //log("main table found")
 
         const searchSource = await page.content();
@@ -115,7 +115,7 @@ function indexApp() {
         await page.screenshot({ path: publicFolder + 'homepage.png' });
         const parsedAds = await page.evaluate(() => {
             const adsResults = [];
-            const ads = $("#main_table .main_table tr.showPopupUnder");
+            const ads = $("#tiv_main_table .main_table tr.showPopupUnder");
             console.info(ads);
             ads.each(function(i, ad) {
                 // get the href attribute of each link
@@ -138,7 +138,8 @@ function indexApp() {
         let count = 0;
         let filteredBySqr = 0;
         let filteredByCity = 0;
-        for (const ad of parsedAds) {
+        for (let i=0;i<parsedAds.length;i++) {
+            let ad = parsedAds[i];
             const existingAd = adsDB.get('ads')
                 .find({ id: ad.id })
                 .value();
@@ -150,9 +151,16 @@ function indexApp() {
                 //log('Fetching', ad.link);
                 await page.goto(ad.link);
 
-                await page.waitFor(15000);
-
-                await page.waitFor("#mainFrame", { timeout: 60000 * 5 }); // max 5 minutes
+                let error = 0;
+                await page.waitFor("#mainFrame", { timeout: 60000 * 2}).catch(err=>{
+                    error+=1;
+                    log("Error HAPPENED:"+ad.link)
+                }); // max 5 minutes
+                if(error!==0){
+                    error=0;
+                    continue;
+                }
+                //log('Waited');
                 const adDetails = await page.evaluate(() => {
                     const data = {};
                     $('.innerDetailsDataGrid').each((index, dataBlock) => {
@@ -212,6 +220,7 @@ function indexApp() {
                 //log('Fetching images and map data');
                 await page.goto(`http://www.yad2.co.il/Nadlan/ViewImage.php?CatID=2&SubCatID=2&RecordID=${ad.id}`, { waitUntil: ['load', 'domcontentloaded', 'networkidle0'] });
                 let  adMetaData = {}
+                adMetaData.images = [];
                 try{
                 adMetaData = await page.evaluate(() => {
                     if (mapOptions === undefined) {
@@ -225,8 +234,11 @@ function indexApp() {
                         map: mapOptions
                     };
                 });}catch(e){
+                    adMetaData = {}
+                    adMetaData.images = [];
                     log("MAP OPTIONS IS NOT DEFINED ERROR")
                 }
+
                 adMetaData.images.unshift(`http://172.104.211.48:3000/${ad.id}-info.png`);
                 ad.meta = adMetaData;
 
@@ -357,7 +369,7 @@ function indexApp() {
             });
             let curUrl = yad2ResultsURL[i];
             //log(`Current scrape for ${curUrl}`);
-            if(errorsInARow===3){
+            if(errorsInARow >= 3){
                 if(i==yad2ResultsURL.length-1){
                     break;
                 }
@@ -370,6 +382,7 @@ function indexApp() {
                 })
                 .catch(async (err) => {
                     log('ERROR HAPPENED', err);
+                    errorsInARow++;
                     i--;
                 });
             errorsInARow = 0;
