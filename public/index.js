@@ -561,6 +561,6 @@ app.get('/restartServer', (req, res) => {
 app.use(express.static('public'));
 
 
-app.listen(3001, function () {
-    log('GUI SERVER LISTENING ON 3001 PORT')
+app.listen(80, function () {
+    log('GUI SERVER LISTENING ON 80 PORT')
 });
