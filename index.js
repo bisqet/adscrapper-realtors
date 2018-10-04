@@ -152,18 +152,20 @@ function indexApp() {
 
             if (!existingAd) {
                 // new ad
-                count += 1;
+                count++;
                 ad.link = "http://www.yad2.co.il/Nadlan/tivrent_info.php?NadlanID=" + ad.id;
                 //log('Fetching', ad.link);
                 await page.goto(ad.link);
 
                 let error = 0;
-                await page.waitFor("#mainFrame", { timeout: 60000*2}).catch(err=>{
-                    error+=1;
+                await page.waitFor("#mainFrame", { timeout: 60000 * 2}).catch(err=>{
+                    error++;
+                    skippedDueCaptcha++;
+                    count--;
                     log("CAPTCHA ERROR:"+ad.link)
                 }); // max 2 minutes
                 if(error!==0){
-                    error = 0;
+                    error=0;
                     continue;
                 }
                 //log('Waited');
@@ -280,6 +282,7 @@ function indexApp() {
             }
         }
         log(`Total skipped-duplicate - due to DB: ${parsedAds.length-count}`);
+        log(`Total skipped due captcha: ${skippedDueCaptcha}`)
         log('Total skipped due to city filter: ', filteredByCity);
         log('Total skipped due to SQR filter: ', filteredBySqr);
         log('Total msgs: ', count - filteredByCity - filteredBySqr);
