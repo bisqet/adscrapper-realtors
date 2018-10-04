@@ -255,6 +255,11 @@ input:focus~.bar:after {
   margin-top: 5px;
   width: 630px;
 }
+#livelogsContainer{
+	width:80%;
+	height:600px;
+	
+}
     </style>
 </head>
 
@@ -308,6 +313,7 @@ input:focus~.bar:after {
                     </label>
                 </div>
         </section>
+		<section id ="livelogsContainer"></section>
     </main>
     <footer id='snackBar'></footer>
     <script type='text/javascript'>
@@ -435,7 +441,17 @@ input:focus~.bar:after {
             labelForStatus.for = res;
         })
     }
-    setInterval(checkServerAvailibility, 5000);
+	function getLogs() {
+        fetch('/getLogs').then((res) => {
+            return res.text()
+        }).then((res)=>{
+			livelogsContainer.innerText = \`${}\`
+		})
+    }
+    setInterval(()=>{
+		checkServerAvailibility();
+		getLogs();
+		}, 5000);
 
     scrapeLinks.value = \`${config.yad2ResultsURL!==undefined?config.yad2ResultsURL.join('\n'):''}\`;
     unacceptableCities.value = \`${config.cityFilter!==undefined?config.cityFilter.unacceptable.join('\n'):''}\`;
