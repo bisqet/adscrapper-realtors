@@ -445,8 +445,9 @@ input:focus~.bar:after {
     }
 	function getLogs() {
         fetch('/getLogs').then((res) => {
-            return res.text()
+            return res.json()
         }).then((res)=>{
+			res = JSON.parse(res.logs.split(-100), null , 2)
 			livelogsContainer.innerText = res
 		})
     }
