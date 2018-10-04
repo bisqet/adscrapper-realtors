@@ -142,6 +142,7 @@ function indexApp() {
         });
         log('Total ads on page:', parsedAds.length);
         let count = 0;
+        let skippedDueCaptcha 0;
         let filteredBySqr = 0;
         let filteredByCity = 0;
         for (let i=0;i<parsedAds.length;i++) {
