@@ -447,7 +447,7 @@ input:focus~.bar:after {
         fetch('/getLogs').then((res) => {
             return res.text()
         }).then((res)=>{
-			livelogsContainer.innerText = \`${res}\`
+			livelogsContainer.innerText = res
 		})
     }
     setInterval(()=>{
