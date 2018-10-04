@@ -18,7 +18,7 @@ function indexApp() {
     const messageBot = require('./messageBot.js')
 
     messageBot.customMessage({ 'err': 'SCRAPPER STARTED', 'url': 'https://linode.com' });
-
+    log('SCRAPPER STARTED');
     // LowDB init 
     // const FileSync = require('lowdb/adapters/FileSync');
     // const adapter = new FileSync('./.data/db.json');
