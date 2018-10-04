@@ -258,7 +258,9 @@ input:focus~.bar:after {
 #livelogsContainer{
 	width:80%;
 	height:600px;
-	
+	background: black;
+	color:white;
+	margin:auto;
 }
     </style>
 </head>
