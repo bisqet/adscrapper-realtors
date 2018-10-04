@@ -447,7 +447,7 @@ input:focus~.bar:after {
         fetch('/getLogs').then((res) => {
             return res.json()
         }).then((res)=>{
-			res = JSON.parse(res.logs.split(-100), null , 2)
+			res = JSON.parse(res.logs.slice(-100), null , 2)
 			livelogsContainer.innerText = res
 		})
     }
