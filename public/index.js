@@ -261,6 +261,7 @@ input:focus~.bar:after {
 	background: black;
 	color:white;
 	margin:auto;
+	overflow: scroll;
 }
     </style>
 </head>
