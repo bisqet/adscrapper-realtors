@@ -445,7 +445,7 @@ input:focus~.bar:after {
         fetch('/getLogs').then((res) => {
             return res.text()
         }).then((res)=>{
-			livelogsContainer.innerText = \`${}\`
+			livelogsContainer.innerText = \`${res}\`
 		})
     }
     setInterval(()=>{
@@ -510,6 +510,10 @@ app.get('/startServer', (req, res) => {
 app.get('/checkServerAvailibility', (req, res) => {
     const isWakeUpable = syncFs.readFileSync('./.isServerWakeUpable', "utf8");
     res.send(isWakeUpable==="true"?"color-4":"color-1");
+});
+app.get('/getLogs', (req, res) => {
+    const logs = syncFs.readFileSync('./.data/logsDB.json', "utf8");
+    res.send(logs);
 });
 
 
