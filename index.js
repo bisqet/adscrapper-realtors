@@ -62,6 +62,9 @@ function indexApp() {
             }, 30000); // two minutes
         });
     }
+    async function isCaptchaHere(){
+        //TODO:CAPTCHA CHECK;
+    }
     fs.writeFileSync('.isServerWakeUpable', "false", 'utf8');
 
     const publicFolder = './public/';
@@ -157,10 +160,10 @@ function indexApp() {
                 let error = 0;
                 await page.waitFor("#mainFrame", { timeout: 60000*2}).catch(err=>{
                     error+=1;
-                    log("Error HAPPENED:"+ad.link)
+                    log("CAPTCHA ERROR:"+ad.link)
                 }); // max 2 minutes
                 if(error!==0){
-                    error=0;
+                    error = 0;
                     continue;
                 }
                 //log('Waited');
