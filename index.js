@@ -148,17 +148,20 @@ function indexApp() {
             });
             return adsResults;
         });
+        log(parsedAds)
+        log(config.unacceptableIDs)
         for(let i in config.unacceptableIDs){
             for(let o = 0;o< parsedAds.length;o++){
+                log(parsedAds[o])
                 if(config.unacceptableIDs[i] == parsedAds[o].id){
-                    log('filtered')
+                    log(config.unacceptableIDs[i])
                     filteredID++;
-                    parsedAds.splice(o,1)
+                    parsedAds.splice(o,0)
                     i--;
                 }
             }
         }
-
+        log(parsedAds);
         log('Total ads on page:', parsedAds.length-filteredID);
 
         for (let i=0;i<parsedAds.length;i++) {
