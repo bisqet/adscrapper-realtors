@@ -186,6 +186,7 @@ function indexApp() {
                     log("CAPTCHA ERROR:"+ad.link)
                 }); // max 2 minutes
                 if(error!==0){
+                    delay(60300*5)//wait for 5 mins
                     error=0;
                     continue;
                 }
