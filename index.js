@@ -443,3 +443,4 @@ function indexApp() {
         log(err);
         messageBot.customMessage(err)
     }
+}
