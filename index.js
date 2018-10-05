@@ -123,10 +123,25 @@ function indexApp() {
             const adsResults = [];
             const ads = $("#tiv_main_table .main_table tr.showPopupUnder");
             console.info(ads);
+            let count = 0;
+            let skippedDueCaptcha = 0;
+            let filteredBySqr = 0;
+            let filteredByCity = 0;
+            let filteredID = 0;
+
             ads.each(function(i, ad) {
                 // get the href attribute of each link
                 var adResult = {};
                 adResult.id = $(ad).attr("id").split("_").splice(-1)[0];
+                let skip = 0
+                for(let o in config.unacceptableIDs){
+                    if(config.unacceptableIDs[adResult.id]!==undefined){
+                        skip++;
+                        filteredID++; 
+                        break;
+                    }
+                }
+                if(skip>0)continue;
                 $(ad).find('td').each(function(idx, td) {
                     if (idx === 4) { adResult.type = $(td).text().trim(); }
                     if (idx === 8) { adResult.address = $(td).text().trim(); }
@@ -140,11 +155,8 @@ function indexApp() {
             });
             return adsResults;
         });
-        log('Total ads on page:', parsedAds.length);
-        let count = 0;
-        let skippedDueCaptcha = 0;
-        let filteredBySqr = 0;
-        let filteredByCity = 0;
+        log('Total ads on page:', parsedAds.length-filteredID);
+
         for (let i=0;i<parsedAds.length;i++) {
             let ad = parsedAds[i];
             const existingAd = adsDB.get('ads')
@@ -286,6 +298,7 @@ function indexApp() {
         log(`Total skipped due captcha: ${skippedDueCaptcha}`)
         log('Total skipped due to city filter: ', filteredByCity);
         log('Total skipped due to SQR filter: ', filteredBySqr);
+        log(`Total skipped due specific ad ID filter: ${filteredID}`)
         log('Total msgs: ', count - filteredByCity - filteredBySqr);
     });
     async function sqrFilter(sqr) {
