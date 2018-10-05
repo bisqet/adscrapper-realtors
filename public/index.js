@@ -1,7 +1,7 @@
 const reload = require('require-reload')(require);
 
 let config = reload('../config.js');
-const request = require('request');
+//const request = require('request');
 const fs = require('await-fs');
 const syncFs = require('fs');
 const messageBot = require('../messageBot.js')
@@ -482,6 +482,7 @@ input:focus~.bar:after {
     scrapeLinks.value = \`${config.yad2ResultsURL!==undefined?config.yad2ResultsURL.join('\n'):''}\`;
     unacceptableCities.value = \`${config.cityFilter!==undefined?config.cityFilter.unacceptable.join('\n'):''}\`;
     sqrFilterContainer.value =\`${config.sqrFilter!==undefined?config.sqrFilter:''}\`;
+    unacceptableIds.value = \`${config.unacceptableIDs!==undefined?config.unacceptableIDs.unacceptableIDs.join('\n'):''}\`
     </script>
 </body>
 
@@ -506,6 +507,27 @@ app.post('/changeSettings', (req, res) => {
         log('SETTINGS CHANGED');
 
         res.send('SETTINGS CHANGED');
+        return;
+    });
+});
+app.post('/banAds', (req, res) => {
+
+    const body = req.body;
+    config.unacceptableIDs.push(body.id);
+    let stringifiedBody = `const config = ${JSON.stringify(config, null, 2)};\nmodule.exports = config;`;
+    fs.writeFile('./config.js', stringifiedBody, 'utf8', (err, data) => {
+        if (err) {
+            log(err);
+            res.send('FAILED TO BAN AD.');
+            messageBot.customMessage({ 'err': 'FAILED TO BAN AD', 'url': 'https://linode.com' });
+            return;
+        }
+        config = reload('../config.js');
+        //messageBot.customMessage({ 'err': 'AD Banned', 'url': 'https://linode.com' });
+
+        log('AD banned');
+
+        res.send('AD banned');
         return;
     });
 });
