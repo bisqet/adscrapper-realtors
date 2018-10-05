@@ -266,6 +266,9 @@ function indexApp() {
                     adMetaData.images = [];
                     log(e);
                 }
+
+
+                adMetaData.images.unshift(`http://172.104.211.48:3002/${ad.id}-info.png`);
                 ad.meta = adMetaData;
 
                 // write to DB
