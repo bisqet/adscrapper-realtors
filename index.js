@@ -157,8 +157,8 @@ function indexApp() {
                     log(config.unacceptableIDs[i])
                     log(parsedAds[o].id)
                     filteredID++;
-                    parsedAds.splice(o,0)
-                    i--;
+                    parsedAds.splice(o,1)
+                    o--;
                 }
             }
         }
