@@ -286,11 +286,11 @@ input:focus~.bar:after {
                 <div class='section'>
                     <textarea id='unacceptableCities' class='leftField textarea' value='' style='font-size:80%'></textarea>
                     <textarea id='acceptableCities' class='leftField textarea bg' value='' style='font-size:80%'></textarea>
-                    <textarea id='unacceptableIds' class='rightField textarea bg' value='' style='font-size:80%'></textarea>
+                    <textarea id='unacceptableIds' class='rightField textarea' value='' style='font-size:80%'></textarea>
                     <span class='bar'></span>
                     <div class='scrapeLink citiesFilter active' id ="unacceptableButton">City filter</div>
                     <div class='scrapeLink citiesFilter' style="display:none"  id ="acceptableButton">Acceptable cities</div>
-                    <div class='scrapeLink citiesFilter' style=""  id ="unacceptableIdsButton">Specific ad IDs filter</div>
+                    <div class='scrapeLink citiesFilter active' style=""  id ="unacceptableIdsButton">Specific ad IDs filter</div>
                 </div>
             </div>
             <div>
@@ -412,7 +412,7 @@ input:focus~.bar:after {
                     acceptable: acceptable,
                     mode: mode
                 },
-                unacceptableIDs : unacceptableIDs
+                unacceptableIDs : unacceptableIDs,
                 sqrFilter: sqrFilter
             })
         }).then((res) => {
