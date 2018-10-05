@@ -148,21 +148,22 @@ function indexApp() {
             });
             return adsResults;
         });
-        log(parsedAds)
-        log(config.unacceptableIDs)
+       // log(parsedAds)
+        //log(config.unacceptableIDs)
         for(let i in config.unacceptableIDs){
             for(let o = 0;o< parsedAds.length;o++){
-                log(parsedAds[o])
+                //log(parsedAds[o])
                 if(config.unacceptableIDs[i] == parsedAds[o].id){
                     log(config.unacceptableIDs[i])
+                    log(parsedAds[o].id)
                     filteredID++;
                     parsedAds.splice(o,0)
                     i--;
                 }
             }
         }
-        log(parsedAds);
-        log('Total ads on page:', parsedAds.length-filteredID);
+        //log(parsedAds);
+        log('Total ads on page:', parsedAds.length);
 
         for (let i=0;i<parsedAds.length;i++) {
             let ad = parsedAds[i];
