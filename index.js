@@ -445,6 +445,6 @@ function indexApp() {
 
 }
 
-pushNewAd(adsDB.get('ads')
+messageBot.pushNewAd(adsDB.get('ads')
     .find(1034407)
     .value())
