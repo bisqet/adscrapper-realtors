@@ -240,6 +240,8 @@ function indexApp() {
                 ad.data = adDetails;
  
                 // screenshot the data
+                const infoElement = await page.$('#mainFrame > div.right_column > div > div > table > tbody > tr:nth-child(1) > td:nth-child(1)');
+                await infoElement.screenshot({ path: `${publicFolder}${ad.id}-info.png` });
                 //log('ad info screenshot created ' + `${publicFolder}${ad.id}-info.png`);
 
                 // get the images and the map location
