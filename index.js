@@ -119,15 +119,16 @@ function indexApp() {
 
         await page.screenshot({ path: publicFolder + 'homepage.png' });
 
+        let count = 0;
+        let skippedDueCaptcha = 0;
+        let filteredBySqr = 0;
+        let filteredByCity = 0;
+        let filteredID = 0;
+
         const parsedAds = await page.evaluate(() => {
             const adsResults = [];
             const ads = $("#tiv_main_table .main_table tr.showPopupUnder");
             console.info(ads);
-            let count = 0;
-            let skippedDueCaptcha = 0;
-            let filteredBySqr = 0;
-            let filteredByCity = 0;
-            let filteredID = 0;
 
             ads.each(function(i, ad) {
                 // get the href attribute of each link
