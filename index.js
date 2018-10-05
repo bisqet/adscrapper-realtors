@@ -440,10 +440,3 @@ function indexApp() {
         log(err);
         messageBot.customMessage(err)
     }
-
-messageBot.pushNewAd(adsDB.get('ads')
-    .find(1034407)
-    .value())
-
-}
-
