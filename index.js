@@ -154,8 +154,8 @@ function indexApp() {
             for(let o = 0;o< parsedAds.length;o++){
                 //log(parsedAds[o])
                 if(config.unacceptableIDs[i] == parsedAds[o].id){
-                    log(config.unacceptableIDs[i])
-                    log(parsedAds[o].id)
+                    //log(config.unacceptableIDs[i])
+                    //log(parsedAds[o].id)
                     filteredID++;
                     parsedAds.splice(o,1)
                     o--;
@@ -163,7 +163,7 @@ function indexApp() {
             }
         }
         //log(parsedAds);
-        log('Total ads on page:', parsedAds.length);
+        log('Total ads on page:', parsedAds.length+filteredID);
 
         for (let i=0;i<parsedAds.length;i++) {
             let ad = parsedAds[i];
