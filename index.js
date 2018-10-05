@@ -309,6 +309,7 @@ function indexApp() {
     });
     async function sqrFilter(sqr) {
         if (!sqr) return true;
+        sqr = parseInt(sqr);
         const filter = config.sqrFilter;
         if (filter.match("all") !== null || filter === "") return true
         try {
