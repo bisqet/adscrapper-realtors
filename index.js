@@ -150,7 +150,6 @@ function indexApp() {
         });
         for(let i in config.unacceptableIDs){
             for(let o = 0;o< parsedAds.length;o++){
-                console.log(config.unacceptableIDs[i])
                 if(config.unacceptableIDs[i] == parsedAds[o].id){
                     filteredID++;
                     parsedAds.splice(o,1)
