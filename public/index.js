@@ -253,7 +253,7 @@ input:focus~.bar:after {
 .restartServer{
   margin: auto;
   margin-top: 5px;
-  width: 630px;
+  width: 635px;
 }
 #livelogsContainer{
 	width:80%;
