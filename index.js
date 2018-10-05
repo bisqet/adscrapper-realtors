@@ -151,6 +151,7 @@ function indexApp() {
         for(let i in config.unacceptableIDs){
             for(let o = 0;o< parsedAds.length;o++){
                 if(config.unacceptableIDs[i] == parsedAds[o].id){
+                    log('filtered')
                     filteredID++;
                     parsedAds.splice(o,1)
                     i--;
@@ -294,11 +295,11 @@ function indexApp() {
 
             }
         }
-        log(`Total skipped-duplicate - due to DB: ${parsedAds.length-count}`);
+        log(`Total skipped-duplicate - due to DB: ${parsedAds.length-filteredID}`);
         log(`Total skipped due captcha: ${skippedDueCaptcha}`)
         log('Total skipped due to city filter: ', filteredByCity);
         log('Total skipped due to SQR filter: ', filteredBySqr);
-        log(`Total skipped due specific ad ID filter: ${filteredID}`)
+        log(`Total skipped due specific ad ID filter: ${filteredID}`);
         log('Total msgs: ', count - filteredByCity - filteredBySqr);
     });
     async function sqrFilter(sqr) {
