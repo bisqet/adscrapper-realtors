@@ -148,10 +148,10 @@ function indexApp() {
             });
             return adsResults;
         });
-
         for(let i in config.unacceptableIDs){
             for(let o = 0;o< parsedAds.length;o++){
-                if(config.unacceptableIDs[i] == parsedAds[o]){
+                console.log(config.unacceptableIDs[i])
+                if(config.unacceptableIDs[i] == parsedAds[o].id){
                     filteredID++;
                     parsedAds.splice(o,1)
                     i--;
