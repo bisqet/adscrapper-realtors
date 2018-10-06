@@ -19,7 +19,7 @@ function indexApp() {
 
     messageBot.customMessage({ 'err': 'SCRAPPER STARTED', 'url': 'https://linode.com' });
     log('SCRAPPER STARTED');
-    
+
     // LowDB init 
     // const FileSync = require('lowdb/adapters/FileSync');
     // const adapter = new FileSync('./.data/db.json');
@@ -187,7 +187,7 @@ function indexApp() {
                     log("CAPTCHA ERROR:"+ad.link)
                 }); // max 2 minutes
                 if(error!==0){
-                    delay(60300*5)//wait for 5 mins
+                    //delay(60300*5)//wait for 5 mins
                     error=0;
                     continue;
                 }
@@ -301,7 +301,7 @@ function indexApp() {
 
             }
         }
-        log(`Total skipped-duplicate - due to DB: ${parsedAds.length-count}`);
+        log(`Total skipped-duplicate - due to DB: ${parsedAds.length+filteredID-count}`);
         log(`Total skipped due captcha: ${skippedDueCaptcha}`)
         log('Total skipped due to city filter: ', filteredByCity);
         log('Total skipped due to SQR filter: ', filteredBySqr);
