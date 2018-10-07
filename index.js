@@ -138,6 +138,7 @@ function indexApp() {
 
                 $(ad).find('td').each(function(idx, td) {
                     if (idx === 4) { adResult.type = $(td).text().trim(); }
+                    if (idx === 6) {adResult.city = td.innerText.split(' - ')[0]}
                     if (idx === 8) { adResult.address = $(td).text().trim(); }
                     if (idx === 10) { adResult.price = $(td).text().trim(); }
                     if (idx === 12) { adResult.rooms = $(td).text().trim(); }
@@ -149,8 +150,22 @@ function indexApp() {
             });
             return adsResults;
         });
-       // log(parsedAds)
-        //log(config.unacceptableIDs)
+
+
+        //checking existing in unacceptable cities
+        for(let i in config.unacceptable){          
+            for(let o = 0;o< parsedAds.length;o++){
+                //log(parsedAds[o])
+                if(config.unacceptable[i] == parsedAds[o].city){
+                    filteredByCity++;
+                    parsedAds.splice(o,1)
+                    o--;
+                }
+            }
+        }
+
+        // log(parsedAds)
+        //log(config.unacceptableIDs)//checking existing in unacceptable
         for(let i in config.unacceptableIDs){
             for(let o = 0;o< parsedAds.length;o++){
                 //log(parsedAds[o])
