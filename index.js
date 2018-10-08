@@ -424,7 +424,6 @@ function indexApp() {
             await isServerNeedsToStop();
             const browser = await puppeteer.launch({
                 args: ['--no-sandbox'],
-                headless: false,
                 defaultViewport:{
                     isMobile:true
                 }
