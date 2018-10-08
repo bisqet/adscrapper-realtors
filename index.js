@@ -78,7 +78,7 @@ function indexApp() {
 
         const page = await browser.newPage();
 
-        page.setViewport({width: getRandomInt(600, 1400), height:getRandomInt(600, 1400)})
+        //page.setViewport({width: 1280, height:600})
 
         page.setDefaultNavigationTimeout(120000 * 2);
 
