@@ -343,7 +343,7 @@ input:focus~.bar:after {
     let isRestarting = 0;
     let mode = 1;
     checkServerAvailibility();
-
+    getLogs();
 
 
 
