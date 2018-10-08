@@ -418,6 +418,7 @@ function indexApp() {
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
+
     async function mainWrapper(yad2ResultsURL) {
         let errorsInARow = 0
         for (let i = 0; i < yad2ResultsURL.length; i++) {
@@ -439,6 +440,10 @@ function indexApp() {
                 if(i==yad2ResultsURL.length-1){
                     break;
                 }
+                for(let i = 0;i<240;i++){
+                    await delay(getRandomInt(15000, 16000)); 
+                    await isServerNeedsToStop();//check for stop each 15-16 secs
+                }// wait 60 min
                 i++;
             }
             log(`URL №${i+1}`);
@@ -451,7 +456,6 @@ function indexApp() {
                     log('ERROR HAPPENED', err);
                     errorsInARow++;
                     i--;
-                    await delay(getRandomInt(60000, 120000))
                 });
             await browser.close();
             
