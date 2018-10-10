@@ -80,11 +80,13 @@ function indexApp() {
 
         //page.setViewport({width: 1280, height:600})
 
-        page.setDefaultNavigationTimeout(120000 * 2);
+        
+        page.setDefaultNavigationTimeout(180000 * 2);
 
         await page.goto(yad2ResultsURL);
+        await delay(60000);//1m delay.
 
-        // check for captcha
+        
         await page.waitFor("#tiv_main_table", { timeout: 60000 })
         //log("main table found")
 
