@@ -84,7 +84,9 @@ function indexApp() {
         page.setDefaultNavigationTimeout(180000 * 2);
 
         await page.goto(yad2ResultsURL);
+        await delay(60000);//1m delay.
 
+        await page.screenshot({ path: publicFolder + 'bancheck.png' });
 
         await page.waitFor("#tiv_main_table", { timeout: 60000 })
         //log("main table found")
