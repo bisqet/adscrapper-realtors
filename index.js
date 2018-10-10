@@ -431,10 +431,10 @@ function indexApp() {
             const browser = await puppeteer.launch({
                 args: ['--no-sandbox'],
                 defaultViewport:{
-                    width: 600,
-                    height:800,
+                    width: mobileView===true?600:1280,
+                    height: mobileView===true?800:600,
                     deviceScaleFactor: 1,
-                    isMobile:true,
+                    isMobile: mobileView,
                     hasTouch:false,
                     isLandscape: false
                 }
