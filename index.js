@@ -84,9 +84,8 @@ function indexApp() {
         page.setDefaultNavigationTimeout(180000 * 2);
 
         await page.goto(yad2ResultsURL);
-        await delay(60000);//1m delay.
 
-        
+
         await page.waitFor("#tiv_main_table", { timeout: 60000 })
         //log("main table found")
 
@@ -186,6 +185,8 @@ function indexApp() {
         log('Total ads on page:', parsedAds.length+filteredID);
 
         for (let i=0;i<parsedAds.length;i++) {
+            await delay(60000);//1m delay.
+
             let ad = parsedAds[i];
             const existingAd = adsDB.get('ads')
                 .find({ id: ad.id })
