@@ -106,28 +106,6 @@ function indexApp() {
             const afterCookies = await page.cookies();
             fs.appendFileSync('./public/cookies.html', `\nAnd after:\n${JSON.stringify(afterCookies, null, 2)}`, 'utf8');
             throw new Error('ARE YOU HUMAN CAPTCHA HANDLED');
-
-            /*/ get the image
-            const captchaImg = await page.evaluate(() => document.querySelector('#captchaImageInline').src);
-            const { buffer } = parseDataUrl(captchaImg);
-            fs.writeFileSync(publicFolder + 'captcha.png', buffer, 'base64');
-            log('saved captcha, waiting for solution..');
-            await page.screenshot({ path: publicFolder + 'before-captcha.png' });
-            const solution = await waitForCaptchaInput();
-            log('found solution: ', solution);
-            await page.screenshot({ path: publicFolder + 'after-captcha.png' });
-            await page.type('#captchaInput', solution);
-            await page.screenshot({ path: publicFolder + 'after-captcha2.png' });
-            // const [response] = await Promise.all([
-            //   page.waitForNavigation(waitOptions),
-            //   page.click(selector, clickOptions),
-            // ]);
-            //const navigationPromise = page.waitForNavigation({waitUntil: 'networkidle0'});
-            await page.screenshot({ path: publicFolder + 'solved-captcha.png' });
-            await page.waitFor(3000);
-            //await page.click('#submitObject'); // Clicking the link will indirectly cause a navigation
-            //const res = await navigationPromise; // The navigationPromise resolves after navigation has finished
-            //console.log(await res.text()); */
         }
         if (isCaptchaHere) {
             messageBot.customMessage({ 'err': 'Captcha bypassed succesfully!', 'url': 'https://linode.com' });
@@ -212,7 +190,20 @@ function indexApp() {
                 ad.link = "http://www.yad2.co.il/Nadlan/tivrent_info.php?NadlanID=" + ad.id;
                 //log('Fetching', ad.link);
                 await page.goto(ad.link);
+                const contentAd = await page.content();
 
+                if (contentAd.indexOf('האם אתה אנושי?') > -1) {
+                    log("ERROR CAPTCHA!!!");
+                    await sendErrorMessage({ "err": "ERROR CAPTCHA!Bypassing...", "url": yad2ResultsURL });
+                    for (i in cookies) {
+                        await page.deleteCookie(cookies[i]);
+                    }
+                    //await page.deleteCookie({name:"SPSI"})
+                    const afterCookies = await page.cookies();
+                    fs.appendFileSync('./public/cookies.html', `\nAnd after:\n${JSON.stringify(afterCookies, null, 2)}`, 'utf8');
+                    throw new Error('ARE YOU HUMAN CAPTCHA HANDLED');
+                }
+                
                 let error = 0;
                 await page.waitFor("#mainFrame", { timeout: 60000 * 2 }).catch(err => {
                     error++;
@@ -456,7 +447,7 @@ function indexApp() {
             });
             let curUrl = yad2ResultsURL[i];
             //log(`Current scrape for ${curUrl}`);
-            let isCaptchaHere = errorsInARow>0?true:false;
+            let isCaptchaHere = errorsInARow > 0 ? true : false;
 
             if (errorsInARow >= 3) {
                 if (i == yad2ResultsURL.length - 1) {
