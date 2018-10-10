@@ -88,7 +88,7 @@ function indexApp() {
 
         const content = await page.content();
         const cookies = await page.cookies();
-        await delay(5000);
+        await delay(15000);
         await page.screenshot({ path: publicFolder + 'bancheck.png' });
 
         fs.writeFileSync('./public/bancheck.html', content, 'utf8');
