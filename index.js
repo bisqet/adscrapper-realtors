@@ -440,7 +440,7 @@ function indexApp() {
                 if(i==yad2ResultsURL.length-1){
                     break;
                 }
-                for(let i = 0;i<240;i++){
+                for(let i = 0;i<600;i++){
                     await delay(getRandomInt(15000, 16000)); 
                     await isServerNeedsToStop();//check for stop each 15-16 secs
                 }// wait 60 min
