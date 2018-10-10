@@ -1,4 +1,4 @@
-const WARN_CONFIG = require ('./WARN_CONFIG.js');
+const WARN_CONFIG = require('./WARN_CONFIG.js');
 
 module.exports = process.pid; //to relaunch server.
 
@@ -65,7 +65,7 @@ function indexApp() {
             }, 30000); // two minutes
         });
     }
-    async function isCaptchaHere(){
+    async function isCaptchaHere() {
         //TODO:CAPTCHA CHECK;
     }
     fs.writeFileSync('.isServerWakeUpable', "false", 'utf8');
@@ -78,26 +78,35 @@ function indexApp() {
 
         const page = await browser.newPage();
 
-        //page.setViewport({width: 1280, height:600})
+        //page.setViewport({width: getRandomInt(600, 1400), height:getRandomInt(600, 1400)})
 
-        
         page.setDefaultNavigationTimeout(180000 * 2);
 
         await page.goto(yad2ResultsURL);
-        await delay(60000);//1m delay.
 
+        //await delay(30000); //1m delay.
+
+        const content = await page.content();
+        const cookies = await page.cookies();
+        await delay(5000);
         await page.screenshot({ path: publicFolder + 'bancheck.png' });
 
-        await page.waitFor("#tiv_main_table", { timeout: 60000 })
-        //log("main table found")
+        fs.writeFileSync('./public/bancheck.html', content, 'utf8');
+        fs.writeFileSync('./public/cookies.html', JSON.stringify(cookies, null, 2), 'utf8');
+        // check for captcha
 
-        const searchSource = await page.content();
-        //log("searchSource found");
 
-        if (searchSource.indexOf('Are you human?') > -1) {
+        if (content.indexOf('האם אתה אנושי?') > -1) {
             log("ERROR CAPTCHA!!!");
-            await sendErrorMessage({ "err": "ERROR CAPTCHA!!!", "url": yad2ResultsURL });
+            await sendErrorMessage({ "err": "ERROR CAPTCHA!Bypassing...", "url": yad2ResultsURL });
+            for (i in cookies) {
+                await page.deleteCookie(cookies[i]);
+            }
+            //await page.deleteCookie({name:"SPSI"})
+            const afterCookies = await page.cookies();
+            fs.appendFileSync('./public/cookies.html', `\nAnd after:\n${JSON.stringify(afterCookies, null, 2)}`, 'utf8');
             throw new Error('ARE YOU HUMAN CAPTCHA HANDLED');
+
             /*/ get the image
             const captchaImg = await page.evaluate(() => document.querySelector('#captchaImageInline').src);
             const { buffer } = parseDataUrl(captchaImg);
@@ -120,8 +129,11 @@ function indexApp() {
             //const res = await navigationPromise; // The navigationPromise resolves after navigation has finished
             //console.log(await res.text()); */
         }
-
+        if (isCaptchaHere) {
+            messageBot.customMessage({ 'err': 'Captcha bypassed succesfully!', 'url': 'https://linode.com' });
+        }
         // start scraping
+        await page.waitFor("#tiv_main_table", { timeout: 60000 })
 
         await page.screenshot({ path: publicFolder + 'homepage.png' });
 
@@ -143,7 +155,7 @@ function indexApp() {
 
                 $(ad).find('td').each(function(idx, td) {
                     if (idx === 4) { adResult.type = $(td).text().trim(); }
-                    if (idx === 6) {adResult.city = td.innerText.split(' - ')[0]}
+                    if (idx === 6) { adResult.city = td.innerText.split(' - ')[0] }
                     if (idx === 8) { adResult.address = $(td).text().trim(); }
                     if (idx === 10) { adResult.price = $(td).text().trim(); }
                     if (idx === 12) { adResult.rooms = $(td).text().trim(); }
@@ -158,12 +170,12 @@ function indexApp() {
 
 
         //checking existing in unacceptable cities
-        for(let i in config.unacceptable){          
-            for(let o = 0;o< parsedAds.length;o++){
+        for (let i in config.unacceptable) {
+            for (let o = 0; o < parsedAds.length; o++) {
                 //log(parsedAds[o])
-                if(config.unacceptable[i] == parsedAds[o].city){
+                if (config.unacceptable[i] == parsedAds[o].city) {
                     filteredByCity++;
-                    parsedAds.splice(o,1)
+                    parsedAds.splice(o, 1)
                     o--;
                 }
             }
@@ -171,23 +183,23 @@ function indexApp() {
 
         // log(parsedAds)
         //log(config.unacceptableIDs)//checking existing in unacceptable
-        for(let i in config.unacceptableIDs){
-            for(let o = 0;o< parsedAds.length;o++){
+        for (let i in config.unacceptableIDs) {
+            for (let o = 0; o < parsedAds.length; o++) {
                 //log(parsedAds[o])
-                if(config.unacceptableIDs[i] == parsedAds[o].id){
+                if (config.unacceptableIDs[i] == parsedAds[o].id) {
                     //log(config.unacceptableIDs[i])
                     //log(parsedAds[o].id)
                     filteredID++;
-                    parsedAds.splice(o,1)
+                    parsedAds.splice(o, 1)
                     o--;
                 }
             }
         }
         //log(parsedAds);
-        log('Total ads on page:', parsedAds.length+filteredID);
+        log('Total ads on page:', parsedAds.length + filteredID);
 
-        for (let i=0;i<parsedAds.length;i++) {
-            await delay(60000);//1m delay.
+        for (let i = 0; i < parsedAds.length; i++) {
+            //await delay(60000);//1m delay.
 
             let ad = parsedAds[i];
             const existingAd = adsDB.get('ads')
@@ -202,15 +214,15 @@ function indexApp() {
                 await page.goto(ad.link);
 
                 let error = 0;
-                await page.waitFor("#mainFrame", { timeout: 60000 * 2}).catch(err=>{
+                await page.waitFor("#mainFrame", { timeout: 60000 * 2 }).catch(err => {
                     error++;
                     skippedDueCaptcha++;
                     count--;
-                    log("CAPTCHA ERROR:"+ad.link)
+                    log("CAPTCHA ERROR:" + ad.link)
                 }); // max 2 minutes
-                if(error!==0){
+                if (error !== 0) {
                     //delay(60300*5)//wait for 5 mins
-                    error=0;
+                    error = 0;
                     continue;
                 }
                 //log('Waited');
@@ -236,12 +248,12 @@ function indexApp() {
                                 //
                             });
                             let container = dataBlock.nextElementSibling;
-                            if(container.lastElementChild){
+                            if (container.lastElementChild) {
                                 data.more = container.lastElementChild.innerText;
-                            }else{
+                            } else {
                                 data.more = "*"
                             }
-                            
+
                             data["tax/m"] = "*";
                             data.vaad = "*";
                             for (let i = 0; i < container.children[2].childNodes.length; i++) {
@@ -270,7 +282,7 @@ function indexApp() {
                     continue;
                 }
                 ad.data = adDetails;
- 
+
                 // screenshot the data
                 const infoElement = await page.$('#mainFrame > div.right_column > div > div > table > tbody > tr:nth-child(1) > td:nth-child(1)');
                 await infoElement.screenshot({ path: `${publicFolder}${ad.id}-info.png` });
@@ -279,17 +291,18 @@ function indexApp() {
                 // get the images and the map location
                 //log('Fetching images and map data');
                 await page.goto(`http://www.yad2.co.il/Nadlan/ViewImage.php?CatID=2&SubCatID=6&RecordID=${ad.id}`, { waitUntil: ['load', 'domcontentloaded', 'networkidle0'] });
-                let  adMetaData = {}
+                let adMetaData = {}
                 adMetaData.images = [];
-                try{
-                adMetaData = await page.evaluate(() => {
-                    if (ImageArr === undefined) {
-                        ImageArr = []
-                    }
-                    return {
-                        images: ImageArr
-                    };
-                });}catch(e){
+                try {
+                    adMetaData = await page.evaluate(() => {
+                        if (ImageArr === undefined) {
+                            ImageArr = []
+                        }
+                        return {
+                            images: ImageArr
+                        };
+                    });
+                } catch (e) {
                     adMetaData = {};
                     adMetaData.images = [];
                     log(e);
@@ -362,18 +375,18 @@ function indexApp() {
         if (mode === 0) {
 
             for (let i in acceptable) {
-                if(acceptable[i]===city){
+                if (acceptable[i] === city) {
                     return true;
-                }//cities without approved hoods will be approved
-                if(typeof acceptable[i]!=="object"){
+                } //cities without approved hoods will be approved
+                if (typeof acceptable[i] !== "object") {
                     continue;
-                }//check is this city without hoods or no
+                } //check is this city without hoods or no
                 for (let o in acceptable[i]) {
 
                     if (o === 0 && acceptable[i][o] !== city) {
                         break;
                     }
-                    if (acceptable[i][o] == hood&&acceptable[i][0] ===city) {
+                    if (acceptable[i][o] == hood && acceptable[i][0] === city) {
                         return true
                     }
 
@@ -388,24 +401,24 @@ function indexApp() {
             if (unacceptable[i] == city) {
                 //log(`CITY RESULT IS: FALSE`);
                 return false
-            }//unacceptable cities without acceptable hoods will be rejected
-            if(typeof unacceptable[i]!=="object"){
+            } //unacceptable cities without acceptable hoods will be rejected
+            if (typeof unacceptable[i] !== "object") {
                 continue;
-            }//if city haven't hoods then
+            } //if city haven't hoods then
             for (let o in unacceptable[i]) {
-              if (o === 0 && unacceptable[i][o] !== city) {
-                break;
-              }
-              if (unacceptable[i][o] == hood&&unacceptable[i][0] ===city) {
-                return true
-              }
+                if (o === 0 && unacceptable[i][o] !== city) {
+                    break;
+                }
+                if (unacceptable[i][o] == hood && unacceptable[i][0] === city) {
+                    return true
+                }
             }
-            if(unacceptable[i][0] ===city)return false
+            if (unacceptable[i][0] === city) return false
         }
         return true
     }
 
-    async function isServerNeedsToStop(){
+    async function isServerNeedsToStop() {
         const isStopNeeded = fs.readFileSync('.restartNeeded', 'utf8') === "true" ? true : false
         fs.writeFileSync('.restartNeeded', "false", 'utf8');
         if (isStopNeeded) {
@@ -426,33 +439,37 @@ function indexApp() {
 
     async function mainWrapper(yad2ResultsURL) {
         let errorsInARow = 0
+        let mobileView = true;
+
         for (let i = 0; i < yad2ResultsURL.length; i++) {
             await isServerNeedsToStop();
             const browser = await puppeteer.launch({
                 args: ['--no-sandbox'],
-                defaultViewport:{
-                    width: mobileView===true?600:1280,
-                    height: mobileView===true?800:600,
+                defaultViewport: {
+                    width: mobileView === true ? 600 : 1280,
+                    height: mobileView === true ? 800 : 600,
                     deviceScaleFactor: 1,
                     isMobile: mobileView,
-                    hasTouch:false,
+                    hasTouch: false,
                     isLandscape: false
                 }
             });
             let curUrl = yad2ResultsURL[i];
             //log(`Current scrape for ${curUrl}`);
-            if(errorsInARow >= 3){
-                if(i==yad2ResultsURL.length-1){
+            let isCaptchaHere = errorsInARow>0?true:false;
+
+            if (errorsInARow >= 3) {
+                if (i == yad2ResultsURL.length - 1) {
                     break;
                 }
-                for(let i = 0;i<600;i++){
-                    await delay(getRandomInt(15000, 16000)); 
-                    await isServerNeedsToStop();//check for stop each 15-16 secs
-                }// wait 60 min
+                for (let i = 0; i < 600; i++) {
+                    await delay(getRandomInt(15000, 16000));
+                    await isServerNeedsToStop(); //check for stop each 15-16 secs
+                } // every 60 min
                 i++;
             }
             log(`URL №${i+1}`);
-            await main(curUrl, browser)
+            await main(curUrl, browser, isCaptchaHere)
                 .then(async () => {
                     log('Successful.');
                     errorsInARow = 0;
@@ -461,17 +478,18 @@ function indexApp() {
                     log('ERROR HAPPENED', err);
                     errorsInARow++;
                     i--;
+                    mobileView = mobileView === true ? false : true;
                 });
             await browser.close();
-            
+
             await isServerNeedsToStop();
 
-            await delay(getRandomInt(60000, 120000)); // every 0ne - 2 min
+            //await delay(getRandomInt(60000, 120000)); // every 0ne - 2 min
         }
-        for(let i = 0;i<240;i++){
-            await delay(getRandomInt(15000, 16000)); 
-            await isServerNeedsToStop();//check for stop each 15-16 secs
-        }// every 60 min
+        for (let i = 0; i < 240; i++) {
+            await delay(getRandomInt(15000, 16000));
+            await isServerNeedsToStop(); //check for stop each 15-16 secs
+        } // every 60 min
         //log('calling main again!');
         mainWrapper(yad2ResultsURL);
     }
