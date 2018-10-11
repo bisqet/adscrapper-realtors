@@ -2,7 +2,7 @@ const request = require('request');
 
 exports.pushNewAd = async function(ad) {
     const reqOptions = {
-        uri: 'https://flatbot.glitch.me/r/pushNewAd',
+        uri: 'https://botic.glitch.me/r/pushNewAd',
         method: 'POST',
         json: true,
         body: ad
@@ -12,7 +12,7 @@ exports.pushNewAd = async function(ad) {
 
 exports.pushAdUpdate = async function(ad) {
     const reqOptions = {
-        uri: 'https://flatbot.glitch.me/r/pushAdUpdate',
+        uri: 'https://botic.glitch.me/r/pushAdUpdate',
         method: 'POST',
         json: true,
         body: ad
@@ -21,7 +21,7 @@ exports.pushAdUpdate = async function(ad) {
 }
 exports.clearDB = async function(){
     const reqOptions = {
-        uri: 'https://flatbot.glitch.me/r/clearDB',
+        uri: 'https://botic.glitch.me/r/clearDB',
         method: 'GET'
     };
     request(reqOptions);
@@ -29,7 +29,7 @@ exports.clearDB = async function(){
 
 exports.customMessage = async function(msg) {
     const reqOptions = {
-        uri: 'https://flatbot.glitch.me/r/errorMessage',
+        uri: 'https://botic.glitch.me/r/errorMessage',
         method: 'POST',
         json: true,
         body: msg
@@ -39,7 +39,7 @@ exports.customMessage = async function(msg) {
 
 exports.captchaMsg = async function(img) {
     const reqOptions = {
-        uri: 'https://flatbot.glitch.me/r/captchaMsg',
+        uri: 'https://botic.glitch.me/r/captchaMsg',
         method: 'POST',
         json: true,
         body: {img}
