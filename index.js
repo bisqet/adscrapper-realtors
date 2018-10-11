@@ -202,7 +202,7 @@ function indexApp() {
                 //captchaExist = await checkForCaptcha(content, page);
 
                 let error = 0;
-                await page.waitFor("#mainFrame", { timeout: 60000 * 2 }).catch(err => {
+                await page.waitFor("#mainFrame", { timeout: 60000 }).catch(err => {
                     error++;
                     skippedDueCaptcha++;
                     count--;
