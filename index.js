@@ -41,7 +41,22 @@ function indexApp() {
             setTimeout(() => resolve(), mseconds);
         });
     }
-
+    const checkForCaptcha = async (content) =>{
+        if (content.indexOf('האם אתה אנושי?') > -1) {
+            //log("ERROR CAPTCHA!!!");
+            //await sendErrorMessage({ "err": "ERROR CAPTCHA! Waiting for solution..", "url": yad2ResultsURL });
+            const captchaImg = await page.evaluate(() => document.querySelector('#captchaImageInline').src);
+            const { buffer } = parseDataUrl(captchaImg);
+            fs.writeFileSync(publicFolder + 'captcha.png', buffer, 'base64');
+            messageBot.captchaMsg(WARN_CONFIG.DOMAIN+'/captcha.png')
+            log('ERROR CAPTCHA! Waiting for solution..');
+            const solution = await waitForCaptchaInput();
+            await page.type('#captchaInput', solution);
+            await page.click('#submitObject');
+            return true;
+        }
+        return false;
+    }
     const parseDataUrl = (dataUrl) => {
         const matches = dataUrl.match(/^data:(.+);base64,(.+)$/);
         if (matches.length !== 3) {
@@ -65,9 +80,6 @@ function indexApp() {
             }, 30000); // two minutes
         });
     }
-    async function isCaptchaHere() {
-        //TODO:CAPTCHA CHECK;
-    }
     fs.writeFileSync('.isServerWakeUpable', "false", 'utf8');
 
     const publicFolder = './public/';
@@ -82,37 +94,30 @@ function indexApp() {
 
         page.setDefaultNavigationTimeout(180000 * 2);
 
+        pendingccs = await page.cookies(yad2ResultsURL);
+        fs.writeFileSync('./public/cookies.html', JSON.stringify(pendingccs, null, 2), 'utf8');        
         await page.goto(yad2ResultsURL);
 
-        //await delay(30000); //1m delay.
 
+        //await delay(30000); //1m delay.
+        await delay(30000);
         const content = await page.content();
-        const cookies = await page.cookies();
-        await delay(15000);
+        const cookies = await page.cookies(yad2ResultsURL);
+        
         await page.screenshot({ path: publicFolder + 'bancheck.png' });
 
         fs.writeFileSync('./public/bancheck.html', content, 'utf8');
         fs.writeFileSync('./public/cookies.html', JSON.stringify(cookies, null, 2), 'utf8');
         // check for captcha
+        let captchaExist = await checkForCaptcha(content);
 
 
-        if (content.indexOf('האם אתה אנושי?') > -1) {
-            log("ERROR CAPTCHA!!!");
-            await sendErrorMessage({ "err": "ERROR CAPTCHA!Bypassing...", "url": yad2ResultsURL });
-            for (i in cookies) {
-                await page.deleteCookie(cookies[i]);
-            }
-            //await page.deleteCookie({name:"SPSI"})
-            const afterCookies = await page.cookies();
-            fs.appendFileSync('./public/cookies.html', `\nAnd after:\n${JSON.stringify(afterCookies, null, 2)}`, 'utf8');
-            throw new Error('ARE YOU HUMAN CAPTCHA HANDLED');
-        }
-        if (isCaptchaHere) {
-            messageBot.customMessage({ 'err': 'Captcha bypassed succesfully!', 'url': 'https://linode.com' });
-        }
         // start scraping
         await page.waitFor("#tiv_main_table", { timeout: 60000 })
 
+        if(captchaExist){
+            messageBot.customMessage({ 'err': 'Captcha solved succesfully!', 'url': 'https://linode.com' });
+        }
         await page.screenshot({ path: publicFolder + 'homepage.png' });
 
         let count = 0;
@@ -192,18 +197,9 @@ function indexApp() {
                 await page.goto(ad.link);
                 const contentAd = await page.content();
 
-                if (contentAd.indexOf('האם אתה אנושי?') > -1) {
-                    log("ERROR CAPTCHA!!!");
-                    await sendErrorMessage({ "err": "ERROR CAPTCHA!Bypassing...", "url": yad2ResultsURL });
-                    for (i in cookies) {
-                        await page.deleteCookie(cookies[i]);
-                    }
-                    //await page.deleteCookie({name:"SPSI"})
-                    const afterCookies = await page.cookies();
-                    fs.appendFileSync('./public/cookies.html', `\nAnd after:\n${JSON.stringify(afterCookies, null, 2)}`, 'utf8');
-                    throw new Error('ARE YOU HUMAN CAPTCHA HANDLED');
-                }
-                
+                await delay(20000);
+                captchaExist = await isCaptchaHere();
+
                 let error = 0;
                 await page.waitFor("#mainFrame", { timeout: 60000 * 2 }).catch(err => {
                     error++;
@@ -211,6 +207,9 @@ function indexApp() {
                     count--;
                     log("CAPTCHA ERROR:" + ad.link)
                 }); // max 2 minutes
+                        if(captchaExist){
+            messageBot.customMessage({ 'err': 'Captcha solved succesfully!', 'url': 'https://linode.com' });
+                }
                 if (error !== 0) {
                     //delay(60300*5)//wait for 5 mins
                     error = 0;

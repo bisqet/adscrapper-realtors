@@ -626,6 +626,15 @@ app.get('/restartServer', (req, res) => {
         
 
 });
+app.post('/captchaSolve', (req, res) => {
+    const {answer} = req.body;
+    messageBot.customMessage({ 'err': `Got solve, ${answer}`, 'url': 'https://linode.com' });
+    fs.writeFile('./public/captcha.solve', answer ,'utf8',(err, data) => {
+      if(err){
+        console.error(err)
+      }
+    });
+});
 
 app.use(express.static('public'));
 
