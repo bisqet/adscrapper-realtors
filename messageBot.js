@@ -36,6 +36,7 @@ exports.customMessage = async function(msg) {
     };
     request(reqOptions);
 }
+
 exports.captchaMsg = async function(img) {
     const reqOptions = {
         uri: 'https://flatbot.glitch.me/r/captchaMsg',
