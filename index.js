@@ -54,8 +54,9 @@ function indexApp() {
             await page.type('#captchaInput', solution);
             await page.click('#submitObject');
             return true;
+        }else{
+            return false;
         }
-        return false;
     }
     const parseDataUrl = (dataUrl) => {
         const matches = dataUrl.match(/^data:(.+);base64,(.+)$/);
@@ -67,17 +68,17 @@ function indexApp() {
 
     const waitForCaptchaInput = () => {
         return new Promise((resolve, reject) => {
-            setTimeout(async () => {
-                if (fs.existsSync('./captcha.txt')) {
+            const waitingInterval = setInterval(async () => {
+                if (fs.existsSync('./public/captcha.solve')) {
                     log('found captcha');
-                    const solution = await readFile('./captcha.txt', "utf8");
-                    await deleteFile('./captcha.txt');
-                    log('delete captch and resolving..');
+                    const solution = await readFile('./public/captcha.solve', "utf8");
+                    await deleteFile('./public/captcha.solve');
+                    clearInterval(waitingInterval);
+                    log('delete captcha and resolving..');
                     return resolve(solution);
                 }
-                reject('no captcha solution file found');
-
-            }, 30000); // two minutes
+                
+            }, 1000); // two minutes
         });
     }
     fs.writeFileSync('.isServerWakeUpable', "false", 'utf8');
@@ -198,7 +199,7 @@ function indexApp() {
                 const contentAd = await page.content();
 
                 await delay(20000);
-                captchaExist = await isCaptchaHere();
+                captchaExist = await checkForCaptcha();
 
                 let error = 0;
                 await page.waitFor("#mainFrame", { timeout: 60000 * 2 }).catch(err => {
