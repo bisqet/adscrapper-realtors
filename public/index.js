@@ -628,7 +628,7 @@ app.get('/restartServer', (req, res) => {
 });
 app.post('/captchaSolve', (req, res) => {
     const {answer} = req.body;
-    messageBot.customMessage({ 'err': `Scrapper got solve, ${answer}`, 'url': 'https://linode.com' });
+    messageBot.customMessage({ 'err': `${answer}`, 'url': 'https://linode.com' });
     fs.writeFile('./public/captcha.solve', answer ,'utf8',(err, data) => {
       if(err){
         console.error(err)
