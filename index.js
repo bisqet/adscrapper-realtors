@@ -93,16 +93,19 @@ function indexApp() {
 
         //page.setViewport({width: getRandomInt(600, 1400), height:getRandomInt(600, 1400)})
 
-        page.setDefaultNavigationTimeout(180000 * 2);
+        page.setDefaultNavigationTimeout(120000);
 
         pendingccs = await page.cookies(yad2ResultsURL);
         fs.writeFileSync('./public/cookies.html', JSON.stringify(pendingccs, null, 2), 'utf8');        
         await page.goto(yad2ResultsURL);
+        console.info('goto')
 
 
         //await delay(30000); //1m delay.
         //await delay(30000);
         const content = await page.content();
+        console.info('content')
+
         const cookies = await page.cookies(yad2ResultsURL);
         
         await page.screenshot({ path: publicFolder + 'bancheck.png' });
@@ -110,11 +113,12 @@ function indexApp() {
         fs.writeFileSync('./public/bancheck.html', content, 'utf8');
         fs.writeFileSync('./public/cookies.html', JSON.stringify(cookies, null, 2), 'utf8');
         // check for captcha
+        console.info('content wrote to bancheck.html');
         let captchaExist = await checkForCaptcha(content, page);
 
 
         // start scraping
-        await page.waitFor("#tiv_main_table", { timeout: 60000 })
+        await page.waitFor("#tiv_main_table", { timeout: 30000 })
 
         if(captchaExist){
             //messageBot.customMessage({ 'err': 'Captcha solved succesfully!', 'url': 'https://linode.com' });
@@ -195,9 +199,10 @@ function indexApp() {
                 count++;
                 ad.link = "http://www.yad2.co.il/Nadlan/tivrent_info.php?NadlanID=" + ad.id;
                 //log('Fetching', ad.link);
+                console.log('go to ', ad.link)
                 await page.goto(ad.link);
                 const contentAd = await page.content();
-
+                console.log('got ', ad.link)
                 //await delay(20000);
                 //captchaExist = await checkForCaptcha(content, page);
 
