@@ -120,9 +120,9 @@ function indexApp() {
         // start scraping
         await page.waitFor("#tiv_main_table", { timeout: 30000 })
 
-        if(captchaExist){
+        //if(captchaExist){
             //messageBot.customMessage({ 'err': 'Captcha solved succesfully!', 'url': 'https://linode.com' });
-        }
+        //}
         await page.screenshot({ path: publicFolder + 'homepage.png' });
 
         let count = 0;
