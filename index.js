@@ -202,6 +202,12 @@ function indexApp() {
                 console.log('go to ', ad.link)
                 await page.goto(ad.link);
                 const contentAd = await page.content();
+
+
+                        fs.writeFileSync('./public/bancheck.html', contentAd, 'utf8');
+        // check for captcha
+        console.info('content wrote to bancheck.html');
+
                 console.log('got ', ad.link)
                 //await delay(20000);
                 //captchaExist = await checkForCaptcha(content, page);
@@ -469,7 +475,7 @@ function indexApp() {
                     errorsInARow = 0;
                 })
                 .catch((err) => {
-                    log('PROXY CHANGED');
+                    log(err);
                     errorsInARow++;
                     i--;
                     WARN_CONFIG.LAST_PROXY_INDEX = WARN_CONFIG.LAST_PROXY_INDEX===WARN_CONFIG.PROXIES.length-1?0:WARN_CONFIG.LAST_PROXY_INDEX+1;
