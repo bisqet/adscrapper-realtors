@@ -114,7 +114,7 @@ function indexApp() {
         fs.writeFileSync('./public/cookies.html', JSON.stringify(cookies, null, 2), 'utf8');
         // check for captcha
         console.info('content wrote to bancheck.html');
-        let captchaExist = await checkForCaptcha(content, page);
+        //let captchaExist = await checkForCaptcha(content, page);
 
 
         // start scraping
@@ -207,12 +207,7 @@ function indexApp() {
                 //captchaExist = await checkForCaptcha(content, page);
 
                 let error = 0;
-                await page.waitFor("#mainFrame", { timeout: 60000 }).catch(err => {
-                    error++;
-                    skippedDueCaptcha++;
-                    count--;
-                    log("CAPTCHA ERROR:" + ad.link)
-                }); // max 2 minutes
+                await page.waitFor("#mainFrame", { timeout: 30000 })
         //if(captchaExist){
         //    messageBot.customMessage({ 'err': 'Captcha solved succesfully!', 'url': 'https://linode.com' });
         //}
