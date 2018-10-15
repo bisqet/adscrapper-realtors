@@ -115,7 +115,9 @@ function indexApp() {
         // check for captcha
         console.info('content wrote to bancheck.html');
         //let captchaExist = await checkForCaptcha(content, page);
-
+        if(content.indexOf('מתנצלים, המחשב חסום לגישה לאתר.') > -1){
+            throw new Error('proxy detected as bot. changing')
+        }
 
         // start scraping
         await page.waitFor("#tiv_main_table", { timeout: 30000 })
