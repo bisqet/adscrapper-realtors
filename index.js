@@ -89,7 +89,8 @@ function indexApp() {
 
     const main = (async (yad2ResultsURL, browser) => {
 
-        const page = await browser.newPage();
+        let page = await browser.newPage();
+        await page.setCookie({ "name": "y2018-2-access", "value": "false", "domain": ".yad2.co.il", "path": "/", "expires":-1, "size": 19, "httpOnly": false, "secure": false, "session": false })
 
         //page.setViewport({width: getRandomInt(600, 1400), height:getRandomInt(600, 1400)})
 
@@ -197,6 +198,11 @@ function indexApp() {
                 .value();
 
             if (!existingAd) {
+            let incognito =  await browser.createIncognitoBrowserContext();
+            page = await incognito.newPage();
+            page.setDefaultNavigationTimeout(120000);
+            await page.setCookie({ "name": "y2018-2-access", "value": "false", "domain": ".yad2.co.il", "path": "/", "expires":-1, "size": 19, "httpOnly": false, "secure": false, "session": false })
+
                 // new ad
                 count++;
                 ad.link = "http://www.yad2.co.il/Nadlan/tivrent_info.php?NadlanID=" + ad.id;
@@ -441,11 +447,25 @@ function indexApp() {
         let mobileView = true;
 
         for (let i = 0; i < yad2ResultsURL.length; i++) {
+            config = reload('./config.js');
+            //WARN_CONFIG = reload('./config.js');
+
             await isServerNeedsToStop();
-            const browser = await puppeteer.launch({
-                ignoreHTTPSErrors: true,
+            const browserOptions = {
+                       headless: true,
+        ignoreHTTPSErrors: true,
+        userDataDir: './tmp',
                 args: ['--no-sandbox',
-                `--proxy-server=${WARN_CONFIG.PROXIES[WARN_CONFIG.LAST_PROXY_INDEX].host}:${WARN_CONFIG.PROXIES[WARN_CONFIG.LAST_PROXY_INDEX].port}`],
+                 '--incognito',
+        '--disable-setuid-sandbox',
+        '--disable-infobars',
+        '--window-position=0,0',
+        '--ignore-certifcate-errors',
+        '--ignore-certifcate-errors-spki-list',
+        '--user-agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3312.0 Safari/537.36"',
+
+                `--proxy-server=${WARN_CONFIG.PROXIES[WARN_CONFIG.LAST_PROXY_INDEX].adress}`
+                ],
                 defaultViewport: {
                     width: mobileView === true ? 600 : 1280,
                     height: mobileView === true ? 800 : 600,
@@ -454,11 +474,12 @@ function indexApp() {
                     hasTouch: false,
                     isLandscape: false
                 }
-            });
+            }
+            const browser = await puppeteer.launch(browserOptions);
+            console.info(`--proxy-server=${WARN_CONFIG.PROXIES[WARN_CONFIG.LAST_PROXY_INDEX].adress}`)
             let curUrl = yad2ResultsURL[i];
-            console.info(`--proxy-server=${WARN_CONFIG.PROXIES[WARN_CONFIG.LAST_PROXY_INDEX].host}:${WARN_CONFIG.PROXIES[WARN_CONFIG.LAST_PROXY_INDEX].port}`)
             //log(`Current scrape for ${curUrl}`);
-            let isCaptchaHere = errorsInARow > 0 ? true : false;
+            let isCaptchaHere = errorsInARow>0?true:false;
 
             /*if (errorsInARow >= 3) {
                 if (i == yad2ResultsURL.length - 1) {
@@ -471,19 +492,20 @@ function indexApp() {
                 i++;
             }*/
             log(`URL №${i+1}`);
-            await main(curUrl, browser, isCaptchaHere)
+            await main(curUrl, browser, isCaptchaHere, WARN_CONFIG.LAST_PROXY_INDEX, browserOptions)
                 .then(async () => {
                     log('Successful.');
                     errorsInARow = 0;
                 })
                 .catch((err) => {
+                    console.log(err)
                     log('PROXY CHANGED');
                     errorsInARow++;
                     i--;
                     WARN_CONFIG.LAST_PROXY_INDEX = WARN_CONFIG.LAST_PROXY_INDEX===WARN_CONFIG.PROXIES.length-1?0:WARN_CONFIG.LAST_PROXY_INDEX+1;
                     let WARN_CONFIG_plain = fs.readFileSync('./WARN_CONFIG.js', 'utf8');
                     fs.writeFileSync('./WARN_CONFIG.js',WARN_CONFIG_plain.replace(/LAST_PROXY_INDEX:([0-9].*?)\n/, `LAST_PROXY_INDEX:${WARN_CONFIG.LAST_PROXY_INDEX}\n`), 'utf8');
-                    mobileView = mobileView === true ? false : true;
+                    //mobileView = mobileView === true ? false : true;
                     console.info(' WARN_CONFIG.LAST_PROXY_INDEX:',  WARN_CONFIG.LAST_PROXY_INDEX)
                 });
             await browser.close();
@@ -499,7 +521,6 @@ function indexApp() {
         //log('calling main again!');
         mainWrapper(yad2ResultsURL);
     }
-
 
 
 
