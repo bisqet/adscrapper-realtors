@@ -123,25 +123,6 @@ function indexApp() {
         fs.writeFileSync('./public/cookies.html', JSON.stringify(cookies, null, 2), 'utf8');
         console.info('content wrote to bancheck.html')
 
-
-        //await delay(30000); //1m delay.
-        //await delay(30000);
-        const content = await page.content();
-        console.info('content')
-
-        const cookies = await page.cookies(yad2ResultsURL);
-        
-        await page.screenshot({ path: publicFolder + 'bancheck.png' });
-
-        fs.writeFileSync('./public/bancheck.html', content, 'utf8');
-        fs.writeFileSync('./public/cookies.html', JSON.stringify(cookies, null, 2), 'utf8');
-        // check for captcha
-        console.info('content wrote to bancheck.html');
-        //let captchaExist = await checkForCaptcha(content, page);
-        if(content.indexOf('מתנצלים, המחשב חסום לגישה לאתר.') > -1){
-            throw new Error('proxy detected as bot. changing')
-        }
-
         // start scraping
         await page.waitFor("#tiv_main_table", { timeout: 30000 })
 
