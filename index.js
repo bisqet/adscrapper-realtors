@@ -16,7 +16,8 @@ function indexApp() {
     //const request = require('request');
     const log = require('./log.js');
     const low = require('lowdb');
-    const config = reload('./config.js');
+    let WARN_CONFIG = require('./WARN_CONFIG.js');
+    let config = reload('./config.js');
     const messageBot = require('./messageBot.js')
 
     messageBot.customMessage({ 'err': 'SCRAPPER STARTED', 'url': 'https://linode.com' });
