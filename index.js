@@ -66,6 +66,17 @@ function indexApp() {
         }
         return { mime: matches[1], buffer: Buffer.from(matches[2], 'base64') };
     };
+    const checkforErrs = (content, proxyIndex)=>{
+        if(content.indexOf('מתנצלים, המחשב חסום לגישה לאתר.') > -1){
+            throw new Error('Bot')
+        }
+        if (content.indexOf('האם אתה אנושי?') > -1){
+            throw new Error('captchaExist')
+        }
+        if (content.indexOf('Loading site please wait') > -1){
+            throw new Error('Loading')
+        }
+    }
 
     const waitForCaptchaInput = () => {
         return new Promise((resolve, reject) => {
@@ -97,10 +108,20 @@ function indexApp() {
 
         page.setDefaultNavigationTimeout(120000);
 
-        pendingccs = await page.cookies(yad2ResultsURL);
-        fs.writeFileSync('./public/cookies.html', JSON.stringify(pendingccs, null, 2), 'utf8');        
+        //pendingccs = await page.cookies(yad2ResultsURL);
+        //fs.writeFileSync('./public/cookies.html', JSON.stringify(pendingccs, null, 2), 'utf8');        
+        
         await page.goto(yad2ResultsURL);
-        console.info('goto')
+        const content = await page.content();
+        console.info('content')
+        const cookies = await page.cookies();
+
+        checkforErrs(content, proxyIndex);
+        await page.screenshot({ path: publicFolder + 'bancheck.png' });
+
+        fs.writeFileSync('./public/bancheck.html', content, 'utf8');
+        fs.writeFileSync('./public/cookies.html', JSON.stringify(cookies, null, 2), 'utf8');
+        console.info('content wrote to bancheck.html')
 
 
         //await delay(30000); //1m delay.
@@ -215,7 +236,8 @@ function indexApp() {
 
                         fs.writeFileSync('./public/bancheck.html', contentAd, 'utf8');
         // check for captcha
-        console.info('content wrote to bancheck.html');
+        console.info('contentAd wrote to bancheck.html');
+                checkforErrs(contentAd, proxyIndex);
 
                 console.log('got ', ad.link)
                 //await delay(20000);
