@@ -218,7 +218,7 @@ function indexApp() {
                         fs.writeFileSync('./public/bancheck.html', contentAd, 'utf8');
         // check for captcha
         console.info('contentAd wrote to bancheck.html');
-                checkforErrs(contentAd, proxyIndex);
+                checkforErrs(contentAd);
 
                 console.log('got ', ad.link)
                 //await delay(20000);
