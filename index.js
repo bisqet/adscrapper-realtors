@@ -116,7 +116,7 @@ function indexApp() {
         console.info('content')
         const cookies = await page.cookies();
 
-        checkforErrs(content, proxyIndex);
+        checkforErrs(content);
         await page.screenshot({ path: publicFolder + 'bancheck.png' });
 
         fs.writeFileSync('./public/bancheck.html', content, 'utf8');
