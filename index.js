@@ -1,5 +1,3 @@
-const WARN_CONFIG = require('./WARN_CONFIG.js');
-
 module.exports = process.pid; //to relaunch server.
 
 if (!module.parent) {
