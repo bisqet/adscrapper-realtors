@@ -42,20 +42,20 @@ function indexApp() {
             setTimeout(() => resolve(), mseconds);
         });
     }
-    const checkForCaptcha = async (content, page) =>{
+    const checkForCaptcha = async (content, page) => {
         if (content.indexOf('האם אתה אנושי?') > -1) {
             //log("ERROR CAPTCHA!!!");
             //await sendErrorMessage({ "err": "ERROR CAPTCHA! Waiting for solution..", "url": yad2ResultsURL });
             const captchaImg = await page.evaluate(() => document.querySelector('#captchaImageInline').src);
             const { buffer } = parseDataUrl(captchaImg);
             fs.writeFileSync(publicFolder + 'captcha.png', buffer, 'base64');
-            messageBot.captchaMsg(WARN_CONFIG.DOMAIN+'/captcha.png')
+            messageBot.captchaMsg(WARN_CONFIG.DOMAIN + '/captcha.png')
             log('ERROR CAPTCHA! Waiting for solution..');
             const solution = await waitForCaptchaInput();
             await page.type('#captchaInput', solution);
             await page.click('#submitObject');
             return true;
-        }else{
+        } else {
             return false;
         }
     }
@@ -66,14 +66,14 @@ function indexApp() {
         }
         return { mime: matches[1], buffer: Buffer.from(matches[2], 'base64') };
     };
-    const checkforErrs = (content, proxyIndex)=>{
-        if(content.indexOf('מתנצלים, המחשב חסום לגישה לאתר.') > -1){
+    const checkforErrs = (content, proxyIndex) => {
+        if (content.indexOf('מתנצלים, המחשב חסום לגישה לאתר.') > -1) {
             throw new Error('Bot')
         }
-        if (content.indexOf('האם אתה אנושי?') > -1){
+        if (content.indexOf('האם אתה אנושי?') > -1) {
             throw new Error('captchaExist')
         }
-        if (content.indexOf('Loading site please wait') > -1){
+        if (content.indexOf('Loading site please wait') > -1) {
             throw new Error('Loading')
         }
     }
@@ -89,7 +89,7 @@ function indexApp() {
                     log('delete captcha and resolving..');
                     return resolve(solution);
                 }
-                
+
             }, 1000); // two minutes
         });
     }
@@ -99,10 +99,10 @@ function indexApp() {
 
     reload('./config.js');
 
-    const main = (async (yad2ResultsURL, browser) => {
-
+    const main = (async (yad2ResultsURL, browser, isCaptchaHere, proxyIndex, browserOptions, indexOfURL, indexOfAd) => {
+        console.log('current index of ad is: ', indexOfAd);
         let page = await browser.newPage();
-        await page.setCookie({ "name": "y2018-2-access", "value": "false", "domain": ".yad2.co.il", "path": "/", "expires":-1, "size": 19, "httpOnly": false, "secure": false, "session": false })
+        await page.setCookie({ "name": "y2018-2-access", "value": "false", "domain": ".yad2.co.il", "path": "/", "expires": -1, "size": 19, "httpOnly": false, "secure": false, "session": false })
 
         //page.setViewport({width: getRandomInt(600, 1400), height:getRandomInt(600, 1400)})
 
@@ -110,7 +110,7 @@ function indexApp() {
 
         //pendingccs = await page.cookies(yad2ResultsURL);
         //fs.writeFileSync('./public/cookies.html', JSON.stringify(pendingccs, null, 2), 'utf8');        
-        
+
         await page.goto(yad2ResultsURL);
         const content = await page.content();
         console.info('content')
@@ -127,7 +127,7 @@ function indexApp() {
         await page.waitFor("#tiv_main_table", { timeout: 30000 })
 
         //if(captchaExist){
-            //messageBot.customMessage({ 'err': 'Captcha solved succesfully!', 'url': 'https://linode.com' });
+        //messageBot.customMessage({ 'err': 'Captcha solved succesfully!', 'url': 'https://linode.com' });
         //}
         await page.screenshot({ path: publicFolder + 'homepage.png' });
 
@@ -192,7 +192,7 @@ function indexApp() {
         //log(parsedAds);
         log('Total ads on page:', parsedAds.length + filteredID);
 
-        for (let i = 0; i < parsedAds.length; i++) {
+        for (let i = indexOfAd; i < parsedAds.length; i++) {
             //await delay(60000);//1m delay.
 
             let ad = parsedAds[i];
@@ -201,10 +201,10 @@ function indexApp() {
                 .value();
 
             if (!existingAd) {
-            let incognito =  await browser.createIncognitoBrowserContext();
-            page = await incognito.newPage();
-            page.setDefaultNavigationTimeout(120000);
-            await page.setCookie({ "name": "y2018-2-access", "value": "false", "domain": ".yad2.co.il", "path": "/", "expires":-1, "size": 19, "httpOnly": false, "secure": false, "session": false })
+                let incognito = await browser.createIncognitoBrowserContext();
+                page = await incognito.newPage();
+                page.setDefaultNavigationTimeout(120000);
+                await page.setCookie({ "name": "y2018-2-access", "value": "false", "domain": ".yad2.co.il", "path": "/", "expires": -1, "size": 19, "httpOnly": false, "secure": false, "session": false })
 
                 // new ad
                 count++;
@@ -215,9 +215,9 @@ function indexApp() {
                 const contentAd = await page.content();
 
 
-                        fs.writeFileSync('./public/bancheck.html', contentAd, 'utf8');
-        // check for captcha
-        console.info('contentAd wrote to bancheck.html');
+                fs.writeFileSync('./public/bancheck.html', contentAd, 'utf8');
+                // check for captcha
+                console.info('contentAd wrote to bancheck.html');
                 checkforErrs(contentAd);
 
                 console.log('got ', ad.link)
@@ -225,10 +225,14 @@ function indexApp() {
                 //captchaExist = await checkForCaptcha(content, page);
 
                 let error = 0;
-                await page.waitFor("#mainFrame", { timeout: 30000 })
-        //if(captchaExist){
-        //    messageBot.customMessage({ 'err': 'Captcha solved succesfully!', 'url': 'https://linode.com' });
-        //}
+                try {
+                    await page.waitFor("#mainFrame", { timeout: 80000 })
+                } catch (err) {
+                    throw new Error(`cnt:${i}`)
+                }
+                //if(captchaExist){
+                //    messageBot.customMessage({ 'err': 'Captcha solved succesfully!', 'url': 'https://linode.com' });
+                //}
                 if (error !== 0) {
                     //delay(60300*5)//wait for 5 mins
                     error = 0;
@@ -345,11 +349,13 @@ function indexApp() {
 
             }
         }
+        log(`URL №${indexOfURL}`);
+        log('Total ads on page:', parsedAds.length + filteredID);
         log(`Total skipped-duplicate - due to DB: ${parsedAds.length-count}`);
         log(`Total skipped due captcha: ${skippedDueCaptcha}`)
         log('Total skipped due to city filter: ', filteredByCity);
         log('Total skipped due to SQR filter: ', filteredBySqr);
-        log(`Total skipped due specific ad ID filter: ${filteredID}`);
+        log(`Total skipped due specific ad ID filter: ${filteredID}`)
         log('Total msgs: ', count - filteredByCity - filteredBySqr);
     });
     async function sqrFilter(sqr) {
@@ -449,6 +455,7 @@ function indexApp() {
     async function mainWrapper(yad2ResultsURL) {
         let errorsInARow = 0
         let mobileView = true;
+        let lastCount = 0;
 
         for (let i = 0; i < yad2ResultsURL.length; i++) {
             config = reload('./config.js');
@@ -456,23 +463,23 @@ function indexApp() {
 
             await isServerNeedsToStop();
             const browserOptions = {
-                       headless: true,
-        ignoreHTTPSErrors: true,
-        userDataDir: './tmp',
+                headless: true,
+                ignoreHTTPSErrors: true,
+                userDataDir: './tmp',
                 args: ['--no-sandbox',
-                 '--incognito',
-        '--disable-setuid-sandbox',
-        '--disable-infobars',
-        '--window-position=0,0',
-        '--ignore-certifcate-errors',
-        '--ignore-certifcate-errors-spki-list',
-        '--user-agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3312.0 Safari/537.36"',
+                    '--incognito',
+                    '--disable-setuid-sandbox',
+                    '--disable-infobars',
+                    '--window-position=0,0',
+                    '--ignore-certifcate-errors',
+                    '--ignore-certifcate-errors-spki-list',
+                    '--user-agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3312.0 Safari/537.36"',
 
-                `--proxy-server=${WARN_CONFIG.PROXIES[WARN_CONFIG.LAST_PROXY_INDEX].adress}`
+                    `--proxy-server=${WARN_CONFIG.PROXIES[WARN_CONFIG.LAST_PROXY_INDEX].ipAddress}:${WARN_CONFIG.PROXIES[WARN_CONFIG.LAST_PROXY_INDEX].port}`
                 ],
                 defaultViewport: {
-                    width: mobileView === true ? 600 : 1280,
-                    height: mobileView === true ? 800 : 600,
+                    width: mobileView === true ? 400 : 1280,
+                    height: mobileView === true ? 600 : 600,
                     deviceScaleFactor: 1,
                     isMobile: mobileView,
                     hasTouch: false,
@@ -480,10 +487,10 @@ function indexApp() {
                 }
             }
             const browser = await puppeteer.launch(browserOptions);
-            console.info(`--proxy-server=${WARN_CONFIG.PROXIES[WARN_CONFIG.LAST_PROXY_INDEX].adress}`)
+            console.info(`--proxy-server=${WARN_CONFIG.PROXIES[WARN_CONFIG.LAST_PROXY_INDEX].ipAddress}:${WARN_CONFIG.PROXIES[WARN_CONFIG.LAST_PROXY_INDEX].port}`)
             let curUrl = yad2ResultsURL[i];
             //log(`Current scrape for ${curUrl}`);
-            let isCaptchaHere = errorsInARow>0?true:false;
+            let isCaptchaHere = errorsInARow > 0 ? true : false;
 
             /*if (errorsInARow >= 3) {
                 if (i == yad2ResultsURL.length - 1) {
@@ -495,22 +502,24 @@ function indexApp() {
                 } // every 60 min
                 i++;
             }*/
-            log(`URL №${i+1}`);
-            await main(curUrl, browser, isCaptchaHere, WARN_CONFIG.LAST_PROXY_INDEX, browserOptions)
+
+            await main(curUrl, browser, isCaptchaHere, WARN_CONFIG.LAST_PROXY_INDEX, browserOptions, i + 1, lastCount)
                 .then(async () => {
                     log('Successful.');
                     errorsInARow = 0;
+                    lastCount = 0;
                 })
                 .catch((err) => {
                     console.log(err)
-                    log('PROXY CHANGED');
+                    //log('PROXY CHANGED');
                     errorsInARow++;
                     i--;
-                    WARN_CONFIG.LAST_PROXY_INDEX = WARN_CONFIG.LAST_PROXY_INDEX===WARN_CONFIG.PROXIES.length-1?0:WARN_CONFIG.LAST_PROXY_INDEX+1;
+                    if (err.message.indexOf('cnt:') > -1) lastCount = parseInt(err.message.match(/cnt:([0-9]*)/)[1]);
+                    WARN_CONFIG.LAST_PROXY_INDEX = WARN_CONFIG.LAST_PROXY_INDEX === WARN_CONFIG.PROXIES.length - 1 ? 0 : WARN_CONFIG.LAST_PROXY_INDEX + 1;
                     let WARN_CONFIG_plain = fs.readFileSync('./WARN_CONFIG.js', 'utf8');
-                    fs.writeFileSync('./WARN_CONFIG.js',WARN_CONFIG_plain.replace(/LAST_PROXY_INDEX:([0-9].*?)\n/, `LAST_PROXY_INDEX:${WARN_CONFIG.LAST_PROXY_INDEX}\n`), 'utf8');
+                    fs.writeFileSync('./WARN_CONFIG.js', WARN_CONFIG_plain.replace(/LAST_PROXY_INDEX:([0-9].*?)\n/, `LAST_PROXY_INDEX:${WARN_CONFIG.LAST_PROXY_INDEX}\n`), 'utf8');
                     //mobileView = mobileView === true ? false : true;
-                    console.info(' WARN_CONFIG.LAST_PROXY_INDEX:',  WARN_CONFIG.LAST_PROXY_INDEX)
+                    console.info(' WARN_CONFIG.LAST_PROXY_INDEX:', WARN_CONFIG.LAST_PROXY_INDEX)
                 });
             await browser.close();
 
@@ -519,8 +528,8 @@ function indexApp() {
             //await delay(getRandomInt(60000, 120000)); // every 0ne - 2 min
         }
         for (let i = 0; i < 240; i++) {
-            await delay(getRandomInt(15000, 16000));
-            await isServerNeedsToStop(); //check for stop each 15-16 secs
+            await delay(getRandomInt(12000, 13000));
+            await isServerNeedsToStop(); //check for stop each 12-13 secs
         } // every 60 min
         //log('calling main again!');
         mainWrapper(yad2ResultsURL);
