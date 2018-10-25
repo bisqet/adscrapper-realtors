@@ -114,7 +114,7 @@ function indexApp() {
 
         //page.setViewport({width: getRandomInt(600, 1400), height:getRandomInt(600, 1400)})
 
-        page.setDefaultNavigationTimeout(120000);
+        page.setDefaultNavigationTimeout(180000);
 
         //pendingccs = await page.cookies(yad2ResultsURL);
         //fs.writeFileSync('./public/cookies.html', JSON.stringify(pendingccs, null, 2), 'utf8');        
@@ -132,7 +132,7 @@ function indexApp() {
         console.info('content wrote to bancheck.html')
 
         // start scraping
-        await page.waitFor("#tiv_main_table", { timeout: 30000 })
+        await page.waitFor("#tiv_main_table", { timeout: 120000 })
 
         //if(captchaExist){
         //messageBot.customMessage({ 'err': 'Captcha solved succesfully!', 'url': 'https://linode.com' });
