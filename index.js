@@ -194,7 +194,7 @@ function indexApp() {
 
         for (let i = indexOfAd; i < parsedAds.length; i++) {
             //await delay(60000);//1m delay.
-
+            try{
             let ad = parsedAds[i];
             const existingAd = adsDB.get('ads')
                 .find({ id: ad.id })
@@ -225,11 +225,8 @@ function indexApp() {
                 //captchaExist = await checkForCaptcha(content, page);
 
                 let error = 0;
-                try {
                     await page.waitFor("#mainFrame", { timeout: 80000 })
-                } catch (err) {
-                    throw new Error(`cnt:${i}`)
-                }
+
                 //if(captchaExist){
                 //    messageBot.customMessage({ 'err': 'Captcha solved succesfully!', 'url': 'https://linode.com' });
                 //}
@@ -347,7 +344,9 @@ function indexApp() {
                         .write()
                 }
 
-            }
+            }                } catch (err) {
+                    throw new Error(`cnt:${i}`)
+                }
         }
         log(`URL №${indexOfURL}`);
         log('Total ads on page:', parsedAds.length + filteredID);
