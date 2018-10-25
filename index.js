@@ -194,159 +194,161 @@ function indexApp() {
 
         for (let i = indexOfAd; i < parsedAds.length; i++) {
             //await delay(60000);//1m delay.
-            try{
-            let ad = parsedAds[i];
-            const existingAd = adsDB.get('ads')
-                .find({ id: ad.id })
-                .value();
+            try {
+                let ad = parsedAds[i];
+                const existingAd = adsDB.get('ads')
+                    .find({ id: ad.id })
+                    .value();
 
-            if (!existingAd) {
-                let incognito = await browser.createIncognitoBrowserContext();
-                page = await incognito.newPage();
-                page.setDefaultNavigationTimeout(120000);
-                await page.setCookie({ "name": "y2018-2-access", "value": "false", "domain": ".yad2.co.il", "path": "/", "expires": -1, "size": 19, "httpOnly": false, "secure": false, "session": false })
+                if (!existingAd) {
+                    let incognito = await browser.createIncognitoBrowserContext();
+                    page = await incognito.newPage();
+                    page.setDefaultNavigationTimeout(120000);
+                    await page.setCookie({ "name": "y2018-2-access", "value": "false", "domain": ".yad2.co.il", "path": "/", "expires": -1, "size": 19, "httpOnly": false, "secure": false, "session": false })
 
-                // new ad
-                count++;
-                ad.link = "http://www.yad2.co.il/Nadlan/tivrent_info.php?NadlanID=" + ad.id;
-                //log('Fetching', ad.link);
-                console.log('go to ', ad.link)
-                await page.goto(ad.link);
-                const contentAd = await page.content();
+                    // new ad
+                    count++;
+                    ad.link = "http://www.yad2.co.il/Nadlan/tivrent_info.php?NadlanID=" + ad.id;
+                    //log('Fetching', ad.link);
+                    console.log('go to ', ad.link)
+                    await page.goto(ad.link);
+                    const contentAd = await page.content();
 
 
-                fs.writeFileSync('./public/bancheck.html', contentAd, 'utf8');
-                // check for captcha
-                console.info('contentAd wrote to bancheck.html');
-                checkforErrs(contentAd);
+                    fs.writeFileSync('./public/bancheck.html', contentAd, 'utf8');
+                    // check for captcha
+                    console.info('contentAd wrote to bancheck.html');
+                    checkforErrs(contentAd);
 
-                console.log('got ', ad.link)
-                //await delay(20000);
-                //captchaExist = await checkForCaptcha(content, page);
+                    console.log('got ', ad.link)
+                    //await delay(20000);
+                    //captchaExist = await checkForCaptcha(content, page);
 
-                let error = 0;
+                    let error = 0;
                     await page.waitFor("#mainFrame", { timeout: 80000 })
 
-                //if(captchaExist){
-                //    messageBot.customMessage({ 'err': 'Captcha solved succesfully!', 'url': 'https://linode.com' });
-                //}
-                if (error !== 0) {
-                    //delay(60300*5)//wait for 5 mins
-                    error = 0;
-                    continue;
-                }
-                //log('Waited');
-                const adDetails = await page.evaluate(() => {
-                    const data = {};
-                    $('.innerDetailsDataGrid').each((index, dataBlock) => {
-                        if (index === 0) {
-                            $(dataBlock).find('td').each(function(idx, td) {
-                                if (td.textContent.match('ישוב:') !== null) { data.city = td.nextElementSibling.innerText; }
-                                if (td.textContent.match("שכונה:") !== null && td.textContent.match("על השכונה:") === null) { data.hood = td.nextElementSibling.innerText }
-                                if (td.textContent.match("כתובת:") !== null) { data.fullAddress = td.nextElementSibling.innerText }
-                                if (td.textContent.match('גודל במ"ר:') !== null) { data.sqrmeter = parseInt(td.nextElementSibling.innerText) }
-                            });
-                        };
-                        if (index === 1) {
-                            data.sqrin = "*";
-                            data.sqrgarden = "*";
-                            $(dataBlock).find('td').each(function(idx, td) {
-                                if (td.lastChild.textContent.match('מ"ר בנוי') !== null) { data.sqrin = td.nextElementSibling.innerText; }
-                                if (td.lastChild.textContent.match('מ"ר גינה:') !== null) { data.sqrgarden = td.nextElementSibling.innerText }
-                                if (td.lastChild.textContent.match('השכרה לטווח ארוך') !== null) { data.term = td.children[0].classList.value == "v_checked" ? "ארוך" : "קצר!!"; }
-                                if (td.lastChild.textContent.match('משופצת') !== null) { data.renov = td.children[0].classList.value == "v_checked" ? "שופץ" : "לא-שופץ"; }
-                                //
-                            });
-                            let container = dataBlock.nextElementSibling;
-                            if (container.lastElementChild) {
-                                data.more = container.lastElementChild.innerText;
-                            } else {
-                                data.more = "*"
-                            }
+                    //if(captchaExist){
+                    //    messageBot.customMessage({ 'err': 'Captcha solved succesfully!', 'url': 'https://linode.com' });
+                    //}
+                    if (error !== 0) {
+                        //delay(60300*5)//wait for 5 mins
+                        error = 0;
+                        continue;
+                    }
+                    //log('Waited');
+                    const adDetails = await page.evaluate(() => {
+                        const data = {};
+                        $('.innerDetailsDataGrid').each((index, dataBlock) => {
+                            if (index === 0) {
+                                $(dataBlock).find('td').each(function(idx, td) {
+                                    if (td.textContent.match('ישוב:') !== null) { data.city = td.nextElementSibling.innerText; }
+                                    if (td.textContent.match("שכונה:") !== null && td.textContent.match("על השכונה:") === null) { data.hood = td.nextElementSibling.innerText }
+                                    if (td.textContent.match("כתובת:") !== null) { data.fullAddress = td.nextElementSibling.innerText }
+                                    if (td.textContent.match('גודל במ"ר:') !== null) { data.sqrmeter = parseInt(td.nextElementSibling.innerText) }
+                                });
+                            };
+                            if (index === 1) {
+                                data.sqrin = "*";
+                                data.sqrgarden = "*";
+                                $(dataBlock).find('td').each(function(idx, td) {
+                                    if (td.lastChild.textContent.match('מ"ר בנוי') !== null) { data.sqrin = td.nextElementSibling.innerText; }
+                                    if (td.lastChild.textContent.match('מ"ר גינה:') !== null) { data.sqrgarden = td.nextElementSibling.innerText }
+                                    if (td.lastChild.textContent.match('השכרה לטווח ארוך') !== null) { data.term = td.children[0].classList.value == "v_checked" ? "ארוך" : "קצר!!"; }
+                                    if (td.lastChild.textContent.match('משופצת') !== null) { data.renov = td.children[0].classList.value == "v_checked" ? "שופץ" : "לא-שופץ"; }
+                                    //
+                                });
+                                let container = dataBlock.nextElementSibling;
+                                if (container.lastElementChild) {
+                                    data.more = container.lastElementChild.innerText;
+                                } else {
+                                    data.more = "*"
+                                }
 
-                            data["tax/m"] = "*";
-                            data.vaad = "*";
-                            for (let i = 0; i < container.children[2].childNodes.length; i++) {
-                                let cell = container.children[2].childNodes[i];
-                                if (cell.textContent.match('ארנונה לחודשיים') !== null) {
-                                    data["tax/m"] = cell.nextSibling.innerText.slice(1).replace(",", "") / 2
+                                data["tax/m"] = "*";
+                                data.vaad = "*";
+                                for (let i = 0; i < container.children[2].childNodes.length; i++) {
+                                    let cell = container.children[2].childNodes[i];
+                                    if (cell.textContent.match('ארנונה לחודשיים') !== null) {
+                                        data["tax/m"] = cell.nextSibling.innerText.slice(1).replace(",", "") / 2
+                                    }
+                                    if (cell.textContent.match('תשלום לועד בית') !== null) {
+                                        data.vaad = cell.nextSibling.innerText.slice(1)
+                                    }
                                 }
-                                if (cell.textContent.match('תשלום לועד בית') !== null) {
-                                    data.vaad = cell.nextSibling.innerText.slice(1)
-                                }
-                            }
-                        };
+                            };
+                        });
+
+                        // remove info divs scrollbars for screenshots
+                        $('.details_block_296 .details_block_body div:nth-child(2)').css({ height: 'inherit' });
+                        return data;
                     });
 
-                    // remove info divs scrollbars for screenshots
-                    $('.details_block_296 .details_block_body div:nth-child(2)').css({ height: 'inherit' });
-                    return data;
-                });
+                    if (!(await sqrFilter(adDetails.sqrmeter))) {
+                        filteredBySqr++;
+                        continue;
+                    }
+                    if (!(await cityFilter(adDetails.city, adDetails.hood))) {
+                        filteredByCity++;
+                        continue;
+                    }
+                    ad.data = adDetails;
 
-                if (!(await sqrFilter(adDetails.sqrmeter))) {
-                    filteredBySqr++;
-                    continue;
-                }
-                if (!(await cityFilter(adDetails.city, adDetails.hood))) {
-                    filteredByCity++;
-                    continue;
-                }
-                ad.data = adDetails;
+                    // screenshot the data
+                    const infoElement = await page.$('#mainFrame > div.right_column > div > div > table > tbody > tr:nth-child(1) > td:nth-child(1)');
+                    await infoElement.screenshot({ path: `${publicFolder}${ad.id}-info.png` });
+                    //log('ad info screenshot created ' + `${publicFolder}${ad.id}-info.png`);
 
-                // screenshot the data
-                const infoElement = await page.$('#mainFrame > div.right_column > div > div > table > tbody > tr:nth-child(1) > td:nth-child(1)');
-                await infoElement.screenshot({ path: `${publicFolder}${ad.id}-info.png` });
-                //log('ad info screenshot created ' + `${publicFolder}${ad.id}-info.png`);
-
-                // get the images and the map location
-                //log('Fetching images and map data');
-                await page.goto(`http://www.yad2.co.il/Nadlan/ViewImage.php?CatID=2&SubCatID=6&RecordID=${ad.id}`, { waitUntil: ['load', 'domcontentloaded', 'networkidle0'] });
-                let adMetaData = {}
-                adMetaData.images = [];
-                try {
-                    adMetaData = await page.evaluate(() => {
-                        if (ImageArr === undefined) {
-                            ImageArr = []
-                        }
-                        return {
-                            images: ImageArr
-                        };
-                    });
-                } catch (e) {
-                    adMetaData = {};
+                    // get the images and the map location
+                    //log('Fetching images and map data');
+                    await page.goto(`http://www.yad2.co.il/Nadlan/ViewImage.php?CatID=2&SubCatID=6&RecordID=${ad.id}`, { waitUntil: ['load', 'domcontentloaded', 'networkidle0'] });
+                    let adMetaData = {}
                     adMetaData.images = [];
-                    log(e);
-                }
+                    try {
+                        adMetaData = await page.evaluate(() => {
+                            if (ImageArr === undefined) {
+                                ImageArr = []
+                            }
+                            return {
+                                images: ImageArr
+                            };
+                        });
+                    } catch (e) {
+                        adMetaData = {};
+                        adMetaData.images = [];
+                        log(e);
+                    }
 
 
-                adMetaData.images.unshift(`${WARN_CONFIG.DOMAIN}/${ad.id}-info.png`);
-                ad.meta = adMetaData;
+                    adMetaData.images.unshift(`${WARN_CONFIG.DOMAIN}/${ad.id}-info.png`);
+                    ad.meta = adMetaData;
 
-                // write to DB
-                adsDB.get('ads')
-                    .push(ad)
-                    .write();
-
-                //messenger
-
-                //log('webhook bot data => ', JSON.stringify(ad));
-                //console.info(ad);
-                messageBot.pushNewAd(ad)
-            } else {
-                // existing ad, check for price change
-                // if changed update the new price and alert
-                if (existingAd.price != ad.price) {
-                    messageBot.pushAdUpdate(ad);
-                    log('found existing ad with price change, sending update ');
+                    // write to DB
                     adsDB.get('ads')
-                        .find({ id: existingAd.id })
-                        .assign({ price: ad.price })
-                        .write()
-                }
+                        .push(ad)
+                        .write();
 
-            }                } catch (err) {
-                    throw new Error(`cnt:${i}`)
+                    //messenger
+
+                    //log('webhook bot data => ', JSON.stringify(ad));
+                    //console.info(ad);
+                    messageBot.pushNewAd(ad)
+                } else {
+                    // existing ad, check for price change
+                    // if changed update the new price and alert
+                    if (existingAd.price != ad.price) {
+                        messageBot.pushAdUpdate(ad);
+                        log('found existing ad with price change, sending update ');
+                        adsDB.get('ads')
+                            .find({ id: existingAd.id })
+                            .assign({ price: ad.price })
+                            .write()
+                    }
+
                 }
+            } catch (err) {
+                console.log(err);
+                 throw new Error(`cnt:${i}`)
+            }
         }
         log(`URL №${indexOfURL}`);
         log('Total ads on page:', parsedAds.length + filteredID);
