@@ -66,7 +66,7 @@ function indexApp() {
         }
         return { mime: matches[1], buffer: Buffer.from(matches[2], 'base64') };
     };
-    const checkforErrs = (content, proxyIndex) => {
+    const checkforErrs = async (content, proxyIndex, page) => {
         if (content.indexOf('מתנצלים, המחשב חסום לגישה לאתר.') > -1) {
             throw new Error('Bot')
         }
@@ -74,7 +74,15 @@ function indexApp() {
             throw new Error('captchaExist')
         }
         if (content.indexOf('Loading site please wait') > -1) {
-            throw new Error('Loading')
+            /*console.log('startWaitfn')
+            await page.waitForNavigation({timeout: 60000, waitUntil:"domcontentloaded"})
+             console.log('wtd1')
+             let ccs =  await page.cookies();
+             console.log(JSON.stringify(ccs))*/
+            throw new Error('Loading site')
+        }
+        if (content.indexOf('Bad Gateway') > -1) {
+            await page.reload({ waitUntil: "domcontentloaded" });
         }
     }
 
@@ -116,7 +124,7 @@ function indexApp() {
         console.info('content')
         const cookies = await page.cookies();
 
-        checkforErrs(content);
+        await checkforErrs(content, proxyIndex, page);
         await page.screenshot({ path: publicFolder + 'bancheck.png' });
 
         fs.writeFileSync('./public/bancheck.html', content, 'utf8');
@@ -218,7 +226,7 @@ function indexApp() {
                     fs.writeFileSync('./public/bancheck.html', contentAd, 'utf8');
                     // check for captcha
                     console.info('contentAd wrote to bancheck.html');
-                    checkforErrs(contentAd);
+        await checkforErrs(contentAd, proxyIndex, page);
 
                     console.log('got ', ad.link)
                     //await delay(20000);
