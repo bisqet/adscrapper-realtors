@@ -498,6 +498,473 @@
           "http://172.104.153.19:3002/1048349-info.png"
         ]
       }
+    },
+    {
+      "id": "1052176",
+      "type": "דירת גן",
+      "city": "גני תקווה",
+      "address": "תיווך סאן סביון",
+      "price": "7,500 ₪",
+      "rooms": "4",
+      "entranceDate": "מיידי",
+      "floor": "קרקע",
+      "adDate": "25.10.18",
+      "link": "http://www.yad2.co.il/Nadlan/tivrent_info.php?NadlanID=1052176",
+      "data": {
+        "city": "גני תקווה",
+        "hood": "חד קומתי",
+        "fullAddress": "גלעד",
+        "sqrmeter": 150,
+        "sqrin": "*",
+        "sqrgarden": "*",
+        "renov": "שופץ",
+        "term": "קצר!!",
+        "more": "תוספות: דירת גן יפהפיה סלון םלוס 4 ח מטבח יפה גינהיפה רחוב שקט קרוב לעל השירותים הקהילתיים מידינ לםרטים סאן סביון שרית שמש 0508364999",
+        "tax/m": "*",
+        "vaad": "*"
+      },
+      "meta": {
+        "images": [
+          "http://45.79.130.157:3002/1052176-info.png"
+        ]
+      }
+    },
+    {
+      "id": "1049396",
+      "type": "גג/פנטהאוז",
+      "city": "אור יהודה",
+      "address": "רון נכסים",
+      "price": "6,000 ₪",
+      "rooms": "4",
+      "entranceDate": "15.11.18",
+      "floor": "9",
+      "adDate": "25.10.18",
+      "link": "http://www.yad2.co.il/Nadlan/tivrent_info.php?NadlanID=1049396",
+      "data": {
+        "city": "אור יהודה",
+        "hood": "נוה סביון",
+        "fullAddress": "חיים ברלב",
+        "sqrmeter": 100,
+        "sqrin": "*",
+        "sqrgarden": "*",
+        "renov": "שופץ",
+        "term": "קצר!!",
+        "more": "תוספות: בנוה סביון, ברח' בר לב, דירת גג מקסימה ! דירת 4 חדרים + 2 מרפסות שמש. . ק\"9 מרפסת 10 מר מהסלון ק\"10 מרפס גג ענקית 50 מ\"ר, דירה מטופחת, ממוזגת, מסורגת, גדולה ויפה. לדירה 2 חניות . מיקוםמעולה",
+        "tax/m": "*",
+        "vaad": "250"
+      },
+      "meta": {
+        "images": [
+          "http://45.79.130.157:3002/1049396-info.png"
+        ]
+      }
+    },
+    {
+      "id": "1000279",
+      "type": "פרטי/קוטג'",
+      "city": "בית דגן\t",
+      "address": "שרון נכסים",
+      "price": "7,000 ₪",
+      "rooms": "5.5",
+      "entranceDate": "",
+      "floor": "קרקע",
+      "adDate": "25.10.18",
+      "link": "http://www.yad2.co.il/Nadlan/tivrent_info.php?NadlanID=1000279",
+      "data": {
+        "city": "בית דגן",
+        "sqrmeter": 170,
+        "sqrin": "*",
+        "sqrgarden": "*",
+        "renov": "לא-שופץ",
+        "term": "ארוך",
+        "more": "תוספות: קוטג 5.5 חד.גינה .חניה.מחסן.מרפסתגג.מושקע ומסודר.בקירבת מרכז קניות.פארק.בתי ספר.לטווח ארוך..לרציניים בלבד..",
+        "tax/m": "*",
+        "vaad": "*"
+      },
+      "meta": {
+        "images": [
+          "http://45.79.130.157:3002/1000279-info.png"
+        ]
+      }
+    },
+    {
+      "id": "1010892",
+      "type": "דו משפחתי",
+      "city": "גבעת שמואל",
+      "address": "נדל\"ני",
+      "price": "7,000 ₪",
+      "rooms": "4.5",
+      "entranceDate": "מיידי",
+      "floor": "קרקע",
+      "adDate": "25.10.18",
+      "link": "http://www.yad2.co.il/Nadlan/tivrent_info.php?NadlanID=1010892",
+      "data": {
+        "city": "גבעת שמואל",
+        "hood": "השחר, הוותיקה",
+        "fullAddress": "טרומפלדור",
+        "sqrmeter": 160,
+        "sqrin": "130",
+        "sqrgarden": "30",
+        "renov": "לא-שופץ",
+        "term": "ארוך",
+        "more": "תוספות: באזור מאוד מבוקש בגבעת שמואל, דו משפחתי 3 קומות 3 שרותים 2 מקלחות, מאות ושקטה,חצר וגג, חנייה. בקיצור בית טוב למי שמחפש איכות חיים.",
+        "tax/m": "*",
+        "vaad": "*"
+      },
+      "meta": {
+        "images": [
+          "http://45.79.130.157:3002/1010892-info.png"
+        ]
+      }
+    },
+    {
+      "id": "1049999",
+      "type": "פרטי/קוטג'",
+      "city": "בית דגן\t",
+      "address": "חיים נדל\"ן",
+      "price": "7,000 ₪",
+      "rooms": "5.5",
+      "entranceDate": "",
+      "floor": "קרקע",
+      "adDate": "25.10.18",
+      "link": "http://www.yad2.co.il/Nadlan/tivrent_info.php?NadlanID=1049999",
+      "data": {
+        "city": "בית דגן",
+        "sqrmeter": 240,
+        "sqrin": "160",
+        "sqrgarden": "70",
+        "renov": "שופץ",
+        "term": "ארוך",
+        "more": "תוספות: בשכונה נווה גנים נכס מטופח ושמור שווה לראות",
+        "tax/m": 500,
+        "vaad": "*"
+      },
+      "meta": {
+        "images": [
+          "http://45.79.130.157:3002/1049999-info.png"
+        ]
+      }
+    },
+    {
+      "id": "1049692",
+      "type": "פרטי/קוטג'",
+      "city": "גבעת שמואל",
+      "address": "גולד נכסים",
+      "price": "6,500 ₪",
+      "rooms": "4.5",
+      "entranceDate": "מיידי",
+      "floor": "קרקע",
+      "adDate": "25.10.18",
+      "link": "http://www.yad2.co.il/Nadlan/tivrent_info.php?NadlanID=1049692",
+      "data": {
+        "city": "גבעת שמואל",
+        "hood": "השחר, הוותיקה",
+        "sqrmeter": 120,
+        "sqrin": "*",
+        "sqrgarden": "*",
+        "renov": "לא-שופץ",
+        "term": "קצר!!",
+        "more": "תוספות: נכס מספר: 16852, בית בית ברחוב שקט,מרוהט קומפלט קומת כניסה סלון מטבח שרותים, קומה1 3 חדרי שינה, קומת גג 70 מטר +חצי חדר.",
+        "tax/m": "*",
+        "vaad": "*"
+      },
+      "meta": {
+        "images": [
+          "http://45.79.130.157:3002/1049692-info.png"
+        ]
+      }
+    },
+    {
+      "id": "1016585",
+      "type": "פרטי/קוטג'",
+      "city": "בית דגן\t",
+      "address": "חיים נדל\"ן",
+      "price": "7,200 ₪",
+      "rooms": "5.5",
+      "entranceDate": "מיידי",
+      "floor": "קרקע",
+      "adDate": "25.10.18",
+      "link": "http://www.yad2.co.il/Nadlan/tivrent_info.php?NadlanID=1016585",
+      "data": {
+        "city": "בית דגן",
+        "sqrmeter": 170,
+        "sqrin": "*",
+        "sqrgarden": "70",
+        "renov": "שופץ",
+        "term": "ארוך",
+        "more": "תוספות: במיקום מרכזי 3 קומות כניסה מיידי מיקוםמרכזי",
+        "tax/m": 500,
+        "vaad": "*"
+      },
+      "meta": {
+        "images": [
+          "http://45.79.130.157:3002/1016585-info.png"
+        ]
+      }
+    },
+    {
+      "id": "1051375",
+      "type": "פרטי/קוטג'",
+      "city": "קרית אונו",
+      "address": "תיווך סאן סביון",
+      "price": "7,800 ₪",
+      "rooms": "4",
+      "entranceDate": "מיידי",
+      "floor": "קרקע",
+      "adDate": "25.10.18",
+      "link": "http://www.yad2.co.il/Nadlan/tivrent_info.php?NadlanID=1051375",
+      "data": {
+        "city": "קרית אונו",
+        "hood": "פרדס רייספלד, קרית אונו החדשה",
+        "sqrmeter": 300,
+        "sqrin": "120",
+        "sqrgarden": "180",
+        "renov": "שופץ",
+        "term": "ארוך",
+        "more": "תוספות: ברחוב שקט בית פרטי מושקע ומטופח מאוד, 4 חד' גדולים, סלון מטבח גדולים ומרווחים, גינה מקסימה, חנייה צמודה לבית, להכנס ולגור.",
+        "tax/m": 6,
+        "vaad": "*"
+      },
+      "meta": {
+        "images": [
+          "http://45.79.130.157:3002/1051375-info.png"
+        ]
+      }
+    },
+    {
+      "id": "1051757",
+      "type": "פרטי/קוטג'",
+      "city": "גני תקווה",
+      "address": "נכסי מאלי ישראל",
+      "price": "7,500 ₪",
+      "rooms": "4",
+      "entranceDate": "מיידי",
+      "floor": "קרקע",
+      "adDate": "25.10.18",
+      "link": "http://www.yad2.co.il/Nadlan/tivrent_info.php?NadlanID=1051757",
+      "data": {
+        "city": "גני תקווה",
+        "hood": "גבעת סביון",
+        "fullAddress": "הגולן",
+        "sqrmeter": 170,
+        "sqrin": "130",
+        "sqrgarden": "40",
+        "renov": "שופץ",
+        "term": "ארוך",
+        "more": "תוספות: הבית ממוקם ברחוב שקט שקרוב למרכז מסחרי \"גבעת סביון\" ובו כל מה שרק צריך בקרבת מקום ! הדירה נראית מקטלוג, מעוצבת מדהים ובעלת פינת ישיבה מרווחת בחצר הכוללת ג'קוזי רחב ומפואר ! *רק המפלס הראשון להשכרה!*",
+        "tax/m": 550,
+        "vaad": "*"
+      },
+      "meta": {
+        "images": [
+          "http://45.79.130.157:3002/1051757-info.png"
+        ]
+      }
+    },
+    {
+      "id": "1051898",
+      "type": "פרטי/קוטג'",
+      "city": "רינתיה\t",
+      "address": "תיווך בכפר",
+      "price": "6,000 ₪",
+      "rooms": "4",
+      "entranceDate": "מיידי",
+      "floor": "קרקע",
+      "adDate": "25.10.18",
+      "link": "http://www.yad2.co.il/Nadlan/tivrent_info.php?NadlanID=1051898",
+      "data": {
+        "city": "רינתיה",
+        "sqrmeter": 125,
+        "sqrin": "125",
+        "sqrgarden": "650",
+        "renov": "לא-שופץ",
+        "term": "קצר!!",
+        "more": "תוספות: להשכרה לשנה אחת בלבד ,במקרה הטוב יהיה שנה וחצי אין התחייבות",
+        "tax/m": "*",
+        "vaad": "*"
+      },
+      "meta": {
+        "images": [
+          "http://45.79.130.157:3002/1051898-info.png"
+        ]
+      }
+    },
+    {
+      "id": "1032994",
+      "type": "דו משפחתי",
+      "city": "בית דגן\t",
+      "address": "כלנית ענבר יזום ושיווק נדל\"ן",
+      "price": "7,200 ₪",
+      "rooms": "5.5",
+      "entranceDate": "",
+      "floor": "קרקע",
+      "adDate": "25.10.18",
+      "link": "http://www.yad2.co.il/Nadlan/tivrent_info.php?NadlanID=1032994",
+      "data": {
+        "city": "בית דגן",
+        "sqrmeter": 200,
+        "sqrin": "*",
+        "sqrgarden": "*",
+        "renov": "שופץ",
+        "term": "קצר!!",
+        "more": "תוספות: להשכרה בבית דגן !!! דו משפחתי מרווח במיוחד ,רחוב שקט ,חמישה וחצי חדרים פלוס מרתף גדול במיוחד.",
+        "tax/m": "*",
+        "vaad": "*"
+      },
+      "meta": {
+        "images": [
+          "http://45.79.130.157:3002/1032994-info.png"
+        ]
+      }
+    },
+    {
+      "id": "1053416",
+      "type": "גג/פנטהאוז",
+      "city": "רמת גן",
+      "address": "מוטי מוריס נדל\"ן",
+      "price": "7,800 ₪",
+      "rooms": "5",
+      "entranceDate": "מיידי",
+      "floor": "20+",
+      "adDate": "25.10.18",
+      "link": "http://www.yad2.co.il/Nadlan/tivrent_info.php?NadlanID=1053416",
+      "data": {
+        "city": "רמת גן",
+        "hood": "רמת חן",
+        "fullAddress": "בני הנביאים",
+        "sqrmeter": 150,
+        "sqrin": "*",
+        "sqrgarden": "*",
+        "renov": "שופץ",
+        "term": "ארוך",
+        "more": "תוספות: נכס מפואר ברמה גבוהה !!! נוף מדהים בשכונה איכותית !!! חניות !!! מחסן !!!! בסמיכות לפארק !!!",
+        "tax/m": "*",
+        "vaad": "*"
+      },
+      "meta": {
+        "images": [
+          "http://45.79.130.157:3002/1053416-info.png"
+        ]
+      }
+    },
+    {
+      "id": "1053068",
+      "type": "דירת גן",
+      "city": "גני תקווה",
+      "address": "מצאתי לך בית",
+      "price": "7,900 ₪",
+      "rooms": "4",
+      "entranceDate": "מיידי",
+      "floor": "1",
+      "adDate": "25.10.18",
+      "link": "http://www.yad2.co.il/Nadlan/tivrent_info.php?NadlanID=1053068",
+      "data": {
+        "city": "גני תקווה",
+        "hood": "גבעת סביון",
+        "fullAddress": "הגולן",
+        "sqrmeter": 160,
+        "sqrin": "130",
+        "sqrgarden": "30",
+        "renov": "שופץ",
+        "term": "ארוך",
+        "more": "תוספות: למהירי החלטה!!!!",
+        "tax/m": 550,
+        "vaad": "*"
+      },
+      "meta": {
+        "images": [
+          "http://45.79.130.157:3002/1053068-info.png"
+        ]
+      }
+    },
+    {
+      "id": "1048487",
+      "type": "פרטי/קוטג'",
+      "city": "גני תקווה",
+      "address": "תיווך יעל",
+      "price": "8,000 ₪",
+      "rooms": "4",
+      "entranceDate": "מיידי",
+      "floor": "קרקע",
+      "adDate": "25.10.18",
+      "link": "http://www.yad2.co.il/Nadlan/tivrent_info.php?NadlanID=1048487",
+      "data": {
+        "city": "גני תקווה",
+        "hood": "גבעת סביון",
+        "fullAddress": "הגולן",
+        "sqrmeter": 120,
+        "sqrin": "*",
+        "sqrgarden": "*",
+        "renov": "שופץ",
+        "term": "קצר!!",
+        "more": "תוספות: נכס מספר: 16096, ברחוב הגולן השקט והמרכזי, בית מקסים 4 חד, משופץ, גינה קדמיתואחורית, מטבח גדול חדש, בקרבת מוסדות חינוך ומרכז קניות.",
+        "tax/m": "*",
+        "vaad": "*"
+      },
+      "meta": {
+        "images": [
+          "http://45.79.130.157:3002/1048487-info.png"
+        ]
+      }
+    },
+    {
+      "id": "1053645",
+      "type": "פרטי/קוטג'",
+      "city": "פתח תקווה",
+      "address": "דירות גואטה",
+      "price": "7,500 ₪",
+      "rooms": "4.5",
+      "entranceDate": "מיידי",
+      "floor": "קרקע",
+      "adDate": "25.10.18",
+      "link": "http://www.yad2.co.il/Nadlan/tivrent_info.php?NadlanID=1053645",
+      "data": {
+        "city": "פתח תקווה",
+        "hood": "נוה עוז",
+        "sqrmeter": 150,
+        "sqrin": "270",
+        "sqrgarden": "*",
+        "renov": "לא-שופץ",
+        "term": "קצר!!",
+        "more": "תוספות: נכס מספר: 35431, בנוה עוז הותיקה קוטג 4.5חד מסודר וממוזג עם חצר מטופחת לכניסה מיידית לפרטים גיא דירות גואטה",
+        "tax/m": "*",
+        "vaad": "*"
+      },
+      "meta": {
+        "images": [
+          "http://45.79.130.157:3002/1053645-info.png"
+        ]
+      }
+    },
+    {
+      "id": "1051643",
+      "type": "פרטי/קוטג'",
+      "city": "קרית אונו",
+      "address": "D.N.A נכסים",
+      "price": "7,800 ₪",
+      "rooms": "4",
+      "entranceDate": "מיידי",
+      "floor": "קרקע",
+      "adDate": "25.10.18",
+      "link": "http://www.yad2.co.il/Nadlan/tivrent_info.php?NadlanID=1051643",
+      "data": {
+        "city": "קרית אונו",
+        "hood": "שאר העיר",
+        "fullAddress": "החשמל",
+        "sqrmeter": 330,
+        "sqrin": "140",
+        "sqrgarden": "190",
+        "renov": "שופץ",
+        "term": "ארוך",
+        "more": "תוספות: בית פרטי מדהים ברחוב שקט משופץ אדריכלית ומרוהטת קומפלט במחיר מציאה ממש.לטווח ארוך בלבד.מפתחות במשרד",
+        "tax/m": "*",
+        "vaad": "*"
+      },
+      "meta": {
+        "images": [
+          "http://45.79.130.157:3002/1051643-info.png"
+        ]
+      }
     }
   ]
 }
