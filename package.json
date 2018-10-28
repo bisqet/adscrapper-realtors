@@ -8,6 +8,7 @@
   "scripts": {
     "start": "npm run scrapper & npm run gui",
     "static": "http-server ./public/ -p 3000",
+    "forever": "forever start index.js & forever start ./public/index.js",
     "scrapper": "node index.js",
     "gui": "node ./public/index.js"
   },
