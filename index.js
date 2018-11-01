@@ -108,6 +108,9 @@ function indexApp() {
         if (content.indexOf('Bad Gateway') > -1) {
             await page.reload({ waitUntil: "domcontentloaded" });
         }
+        if(content.indexOF('HTTP/1.1 400 Bad Request')> -1){
+            throw new Error('Bad Request')
+        }
     }
  
  
