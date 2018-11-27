@@ -3,7 +3,16 @@ module.exports = process.pid; //to relaunch server.
 if (!module.parent) {
     indexApp();
 } //check if it required -- NOT LAUNCH SCRAPPER
- 
+ function yyyy_mm_dd_hh_mm_ss () {
+  now = new Date();
+  year = "" + now.getFullYear();
+  month = "" + (now.getMonth() + 1); if (month.length == 1) { month = "0" + month; }
+  day = "" + now.getDate(); if (day.length == 1) { day = "0" + day; }
+  hour = "" + now.getHours(); if (hour.length == 1) { hour = "0" + hour; }
+  minute = "" + now.getMinutes(); if (minute.length == 1) { minute = "0" + minute; }
+  second = "" + now.getSeconds(); if (second.length == 1) { second = "0" + second; }
+  return year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + second;
+}
 function indexApp() {
     const reload = require('require-reload')(require)
     const fs = require('fs');
@@ -135,7 +144,7 @@ function indexApp() {
  
  
     const main = (async (yad2ResultsURL, browser, isCaptchaHere, proxyIndex, browserOptions, indexOfURL, indexOfAd) => {
-        console.log('current index of ad is: ', indexOfAd);
+        console.log(yyyy_mm_dd_hh_mm_ss() + 'current index of ad is: ', indexOfAd);
  
         let page = await browser.newPage();
  
@@ -152,13 +161,13 @@ function indexApp() {
  
  
         await page.goto(yad2ResultsURL);
-        console.info('goto')
+        console.info(yyyy_mm_dd_hh_mm_ss() + 'goto')
  
  
         //await delay(30000); //1m delay.
         //await delay(30000);
         const content = await page.content();
-        console.info('content')
+        console.info(yyyy_mm_dd_hh_mm_ss() + 'content')
         const cookies = await page.cookies();
  
         await checkforErrs(content, proxyIndex, page);
@@ -166,7 +175,7 @@ function indexApp() {
  
         fs.writeFileSync('./public/bancheck.html', content, 'utf8');
         fs.writeFileSync('./public/cookies.html', JSON.stringify(cookies, null, 2), 'utf8');
-        console.info('content wrote to bancheck.html')
+        console.info(yyyy_mm_dd_hh_mm_ss() + 'content wrote to bancheck.html')
         // check for captcha
         //let captchaExist = await checkForCaptcha(content, page);
  
@@ -595,6 +604,7 @@ function indexApp() {
                     lastCount = 0;
                 })
                 .catch((err) => {
+                    console.log(yyyy_mm_dd_hh_mm_ss())
                     console.log(err)
                     //log('PROXY CHANGED');
                     errorsInARow++;
